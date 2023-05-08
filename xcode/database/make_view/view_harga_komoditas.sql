@@ -1,0 +1,1 @@
+create view view_harga_komoditas as select tr_harga_komoditas.*, master_komoditas.komoditas as komoditas, reg_regencies.name as kabupaten from tr_harga_komoditas left join master_komoditas on tr_harga_komoditas.komoditas_id = master_komoditas.id LEFT JOIN reg_regencies ON tr_harga_komoditas.id_kab = reg_regencies.id
