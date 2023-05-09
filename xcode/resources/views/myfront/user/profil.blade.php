@@ -22,6 +22,13 @@
                                     <!-- /.post-header -->
                                     <div class="post-content">
                                         <table class="table-responsive table-borderless">
+                                            <div class="widget-user-image text-center">
+                                                @if(Auth::user()->foto)
+                                                    <img class="img-circle" height="200" src="{{getImageThumb(Auth::user()->foto)}}" alt="User Avatar">
+                                                @else
+                                                    <img class="img-circle" height="200" src="{{asset('statis/user_logo.png')}}" alt="User Avatar">
+                                                @endif
+                                            </div>
                                             <tr>
                                                 <td>Email</td>
                                                 <td><strong> {{Auth::user()->email}} </strong></td>

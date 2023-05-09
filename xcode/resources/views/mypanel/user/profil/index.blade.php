@@ -95,13 +95,13 @@ $titlePage = 'profil';
 
                                                     <div class="col-lg-12">
                                                         <div class="form-group">
-                                                            <label class="form-label" for="avatar">Avatar</label>
+                                                            <label class="form-label" for="avatar">Foto</label>
                                                             <div class="custom-file">
-                                                                <input id="avatar"
-                                                                       class="custom-file-input @error('avatar') is-invalid @enderror"
-                                                                       type="file" name="avatar"
+                                                                <input id="foto"
+                                                                       class="custom-file-input @error('foto') is-invalid @enderror"
+                                                                       type="file" name="foto"
                                                                        accept="image/*"
-                                                                       onchange="previewImg('avatar')">
+                                                                       onchange="previewImg('foto')">
                                                                 <label class="custom-file-label" for="avatar">Choose
                                                                     file</label>
                                                             </div>
@@ -113,14 +113,14 @@ $titlePage = 'profil';
                                                         </div>
                                                     </div>
 
-                                                    @if($row->avatar)
+                                                    @if($row->foto)
                                                         <div class="col-lg-12">
                                                             @component('mycomponents.checkboxValue')
                                                                 @slot('variabel')
                                                                     avatar
                                                                 @endslot
                                                                 @slot('value')
-                                                                    {{$row->avatar}}
+                                                                    {{$row->foto}}
                                                                 @endslot
                                                                 @slot('teks')
                                                                     hapus avatar
@@ -167,7 +167,7 @@ $titlePage = 'profil';
     <script src="{{asset('backtemplate/vendor/libs/jquery-sticky/jquery-sticky.js')}}"></script>
     <script>
         $(document).ready(function () {
-            changeTextFile('avatar');
+            changeTextFile('foto');
         });
     </script>
 @endpush

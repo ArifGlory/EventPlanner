@@ -47,7 +47,7 @@ class User extends Authenticatable
     {
         return LogOptions::defaults()
             ->useLogName('user')
-            ->logOnly(['name', 'email', 'avatar'])
+            ->logOnly(['name', 'email', 'foto'])
             ->logOnlyDirty(true)
             ->dontLogIfAttributesChangedOnly(['created_at', 'updated_at'])
             ->setDescriptionForEvent

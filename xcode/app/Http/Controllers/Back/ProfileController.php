@@ -35,25 +35,24 @@ class ProfileController extends Controller
 
     public function updateProfil(ProfileRequest $request)
     {
-        $master = $this->myService->find(User::class, Auth::user()->id_users);
-        $member = Member::where('nik', Auth::user()->nik)->first();
+        $master = $this->myService->find(User::class, Auth::user()->id);
         $requestData = $request->all();
-        if ($member) {
-            $avatar = $member->avatar;
-            if ($request->hasFile('avatar')) {
-                $avatar = StoreFileWithFolder($request->file('avatar'), 'public', 'user', ['replace' => $member->avatar]);
+        if ($master) {
+            $avatar = $master->foto;
+            if ($request->hasFile('foto')) {
+                $avatar = StoreFileWithFolder($request->file('foto'), 'public', 'user', ['replace' => $master->foto]);
             } else {
                 if (isset($request->remove_avatar)) {
-                    removeFileFolder('public', $member->avatar);
+                    removeFileFolder('public', $master->foto);
                     $avatar = null;
                 }
             }
 
             $dataMember = [
-              'avatar' => $avatar
+              'foto' => $avatar
             ];
             //$this->myService->update($master, $requestData);
-            updateData($member, $dataMember, 'profil', false);
+            updateData($master, $dataMember, 'profil', false);
         }
         return updateData($master, $requestData, 'profil');
 

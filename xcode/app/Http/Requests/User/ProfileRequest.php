@@ -29,8 +29,8 @@ class ProfileRequest extends FormRequest
         return [
            // 'name' => 'required|string',
             //'username' => 'required|alpha_dash|unique:users,username,'. auth()->id(),
-            'email' => 'required|email|unique:users_login,email,'. Auth::user()->id_users.',id_users',
-            'avatar' => 'sometimes|mimes:'.permission_image().'|max:' . max_upload_image(),
+            'email' => 'required',
+            'foto' => 'sometimes|mimes:'.permission_image().'|max:' . max_upload_image(),
         ];
     }
 

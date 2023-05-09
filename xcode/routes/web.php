@@ -98,10 +98,6 @@ Route::group(['prefix' => 'main', 'middleware' => ['web', 'auth']], function () 
     Route::middleware(['cekaktif'])->group(function () {
         //Route::post('editor/image_upload', [BackController::class, 'uploadImageCKEditor'])->name('uploadviackeditor');
 
-        //Route::get('member', [DashboardController::class, 'getMember']);
-        Route::get('member', [DashboardController::class, 'getDataPengguna']);
-        Route::get('list-uph', [DashboardController::class, 'getUPH']);
-
         Route::group(['prefix' => 'aktivitas'], function () {
             Route::get('/', [LogController::class, 'index']);
             Route::get('data', [LogController::class, 'data']);
@@ -115,8 +111,6 @@ Route::group(['prefix' => 'main', 'middleware' => ['web', 'auth']], function () 
             Route::get('form', [LogSaldoPointController::class, 'form']);
             Route::post('create', [LogSaldoPointController::class, 'store']);
             Route::get('detail/{id}', [LogSaldoPointController::class, 'show']);
-            //Route::delete('delete/{id}', [LogSaldoPointController::class, 'destroy']);
-            //Route::post('bulkDelete', [LogSaldoPointController::class, 'bulkDelete']);
         });
 
         Route::group(['prefix' => 'pengguna'], function () {

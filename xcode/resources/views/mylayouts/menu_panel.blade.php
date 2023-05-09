@@ -27,43 +27,17 @@
 
                     <li class="nav-item">
                         <a href="{{url('main/stores')}}" class="nav-link {{ activeMenu('main/stores') }}">
-                            <i class="nav-icon fas fa-home"></i>
+                            <i class="nav-icon fas fa-star"></i>
                             <p>
-                                Store
+                                Event
                             </p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{url('main/product')}}" class="nav-link {{ activeMenu('main/product') }}">
-                            <i class="nav-icon fas fa-shopping-cart"></i>
+                            <i class="nav-icon fas fa-file-contract"></i>
                             <p>
-                                Produk
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{url('main/voucher')}}" class="nav-link {{ activeMenu('main/voucher') }}">
-                            <i class="nav-icon fas fa-money-bill-alt"></i>
-                            <p>
-                                Voucher
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{url('main/mission')}}" class="nav-link {{ activeMenu('main/mission') }}">
-                            <i class="nav-icon fas fa-list"></i>
-                            <p>
-                                Mission
-                            </p>
-                        </a>
-                    </li>
-                @endif
-                @if(cekRoleAkses('superadmin') || cekRoleAkses('admin'))
-                    <li class="nav-item">
-                        <a href="{{url('main/reward')}}" class="nav-link {{ activeMenu('main/reward') }}">
-                            <i class="nav-icon fas fa-star"></i>
-                            <p>
-                                Reward/Giveaway
+                                Berita
                             </p>
                         </a>
                     </li>

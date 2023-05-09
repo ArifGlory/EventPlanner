@@ -8,7 +8,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 font-weight-bolder">DASHBOARD Xpoint
+                    <h1 class="m-0 font-weight-bolder">DASHBOARD {{getSetting('app_name')}}
                     </h1>
                 </div>
             </div>
@@ -36,15 +36,8 @@
                     <div class="row">
                         <div class="col-sm-6 border-right">
                             <div class="description-block">
-                                <h5 class="description-header">{{ ucwords(getRoleNameForUser(Auth::user())) }}</h5>
+                                <h5 class="description-header">{{ "Event Planner" }}</h5>
                                 <span class="description-text">Role</span>
-                            </div>
-                            <!-- /.description-block -->
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="description-block">
-                                <h5 class="description-header"> Kepemilikan Point </h5>
-                                <span class="description-text"> {{ format_angka_indo(Auth::user()->saldo_point)  }} </span>
                             </div>
                             <!-- /.description-block -->
                         </div>
@@ -158,8 +151,8 @@
                     <div class="col-lg-6 col-6">
                         <div class="small-box bg-ash">
                             <div class="inner">
-                                <h3> {{$mission}} </h3>
-                                <p>Mission</p>
+                                <h3> {{$event}} </h3>
+                                <p>Event</p>
                             </div>
                             <div class="icon">
                                 <i class="fas fa-list"></i>
@@ -169,8 +162,8 @@
                     <div class="col-lg-6 col-6">
                         <div class="small-box bg-fuchsia" style="background-color: #E668B3!important;">
                             <div class="inner">
-                                <h3> {{$produk}} </h3>
-                                <p>Produk</p>
+                                <h3> 0 </h3>
+                                <p>Tiket terbeli</p>
                             </div>
                             <div class="icon">
                                 <i class="fas fa-shopping-cart"></i>
