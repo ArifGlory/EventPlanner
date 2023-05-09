@@ -18,9 +18,8 @@ class Category extends Model
 
 
 
-    const TABLE = 'master_category';
-    const PRIMARYKEY = 'category_id';
-    const FIELDSTATUS = 'category_status';
+    const TABLE = 'category';
+    const PRIMARYKEY = 'id';
     protected $table = self::TABLE;
     protected $primaryKey = self::PRIMARYKEY;
     /**
@@ -30,14 +29,14 @@ class Category extends Model
      */
 
     protected $guarded = [
-        'category_id',
+        'id',
     ];
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->useLogName('xpoint')
-            ->logOnly(['kategori', 'status'])
+            ->logOnly(['category_name'])
             ->logOnlyDirty(true)
             ->dontLogIfAttributesChangedOnly(['created_at', 'updated_at'])
             ->setDescriptionForEvent
@@ -46,15 +45,6 @@ class Category extends Model
             ->dontSubmitEmptyLogs();
     }
 
-    public function scopeActive($query)
-    {
-        $query->select('category_id', 'category_name')->where('category_status', 1)->orderBy('category_name', 'ASC');
-    }
-
-    public function subcategory()
-    {
-        return $this->hasMany(SubCategory::class, 'category_id', 'category_id');
-    }
 
 
 

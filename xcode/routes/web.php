@@ -5,6 +5,7 @@ use App\Http\Controllers\Back\StoreController;
 use App\Http\Controllers\Back\CategoryController;
 use App\Http\Controllers\Back\SubCategoryController;
 use App\Http\Controllers\Back\ProductController;
+use App\Http\Controllers\Back\EventController;
 use App\Http\Controllers\Back\VoucherController;
 use App\Http\Controllers\Back\MissionController;
 use App\Http\Controllers\Back\RewardController;
@@ -185,6 +186,20 @@ Route::group(['prefix' => 'main', 'middleware' => ['web', 'auth']], function () 
             Route::get('update-status', [ProductController::class, 'updateStatus']);
             Route::post('bulkStatus', [ProductController::class, 'bulkStatus']);
         });
+
+        Route::group(['prefix' => 'event'], function () {
+            Route::get('/', [EventController::class, 'index']);
+            Route::get('data', [EventController::class, 'data']);
+            Route::get('form', [EventController::class, 'form']);
+            Route::post('create', [EventController::class, 'store']);
+            Route::put('update/{id}', [EventController::class, 'update']);
+            Route::get('edit/{id}', [EventController::class, 'edit']);
+            Route::delete('delete/{id}', [EventController::class, 'destroy']);
+            Route::get('detail/{id}', [EventController::class, 'show']);
+            Route::get('update-status', [EventController::class, 'updateStatus']);
+            Route::post('bulkStatus', [EventController::class, 'bulkStatus']);
+        });
+
 
         Route::group(['prefix' => 'voucher'], function () {
             Route::get('/', [VoucherController::class, 'index']);
