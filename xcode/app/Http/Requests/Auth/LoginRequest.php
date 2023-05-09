@@ -36,7 +36,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => ['required', 'string'],
-            //'password' => ['required', 'string'],
+            'password' => ['required', 'string'],
         ];
     }
 
@@ -50,46 +50,10 @@ class LoginRequest extends FormRequest
     public function authenticate()
     {
         $this->ensureIsNotRateLimited();
-        $email = $this->request->get('email');
-        $otp = $this->request->get('otp');
+        //$email = $this->request->get('email');
+        //$password = $this->request->get('password');
 
-        $cek = UserOtpRequest::where('otp_email',$email)
-            ->where('otp_code',$otp)
-            ->first();
-        if (!$cek){
-            RateLimiter::hit($this->throttleKey());
-
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
-        }else{
-            $user = User::where('email',$email)
-                ->first();
-            if (!$user){
-                $default_pass = "12345678";
-                $user = User::create([
-                    'name' => $cek->otp_user_name,
-                    'email' => $cek->otp_email,
-                    'phone' => $cek->otp_phone,
-                    'level' => "user",
-                    'password' => Hash::make($default_pass),
-                ]);
-
-                $usr_has_role = UserHasRole::create([
-                    'user_id' => $user->id,
-                    'role_id' => 4,
-                ]);
-
-                event(new Registered($user));
-                Auth::login($user);
-
-                return redirect(RouteServiceProvider::PROFILE_USER);
-            }else{
-                //TODO loginkan pengguna secara manual
-            }
-
-        }
-        /*if (!Auth::attempt($this->only('email', 'password'), $this->filled('remember'))) {
+        if (!Auth::attempt($this->only('email', 'password'), $this->filled('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -101,7 +65,7 @@ class LoginRequest extends FormRequest
             throw ValidationException::withMessages([
                 'email' => 'Mohon maaf role anda tidak bisa mengakses web ini.',
             ]);
-        }*/
+        }
 
         RateLimiter::clear($this->throttleKey());
     }

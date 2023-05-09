@@ -23,10 +23,6 @@
                                     <div class="post-content">
                                         <table class="table-responsive table-borderless">
                                             <tr>
-                                                <td>Wallet Address</td>
-                                                <td><strong> {{Auth::user()->wallet_address}} </strong></td>
-                                            </tr>
-                                            <tr>
                                                 <td>Email</td>
                                                 <td><strong> {{Auth::user()->email}} </strong></td>
                                             </tr>
@@ -38,20 +34,20 @@
                                                 <td>Alamat</td>
                                                 <td><strong> {{Auth::user()->alamat}} </strong></td>
                                             </tr>
+                                            @if(cekRoleAkses('store'))
+                                                <tr>
+                                                    <td>Deskripsi Event Planner</td>
+                                                    <td><strong> {{Auth::user()->store_description}} </strong></td>
+                                                </tr>
+                                            @endif
                                         </table>
                                         <br>
                                         @if(cekRoleAkses('store'))
-                                            <a href="{{ url('/main') }}" class="btn btn-primary rounded me-2">Dashboard Store &nbsp;<i
+                                            <a href="{{ url('/main') }}" class="btn btn-primary rounded me-2">Dashboard Event Planner &nbsp;<i
                                                     class="ml-4 fas fa-home" style="color: white !important;"></i> </a>
                                         @endif
                                         <a href="{{ route('auth-logout') }}" class="btn btn-primary rounded me-2">Logout &nbsp;<i
                                                 class="ml-4 fas fa-power-off" style="color: white !important;"></i> </a>
-                                        @if(!cekRoleAkses('store'))
-                                            <div class="form-group mt-3">
-                                                <a href="{{ url('/user/become-store') }}" class="btn btn-primary w-100 rounded me-2">Upgrade akun menjadi pemilik Store &nbsp;<i
-                                                        class="ml-4 fas fa-store" style="color: white !important;"></i> </a>
-                                            </div>
-                                        @endif
                                     </div>
                                     <!-- /.post-content -->
                                 </div>
@@ -73,18 +69,19 @@
                                     <!-- /.post-header -->
                                     <div class="post-content">
                                         <table class="table-responsive table-borderless">
-                                            <tr>
-                                                <td style="width: fit-content;">Token $XOME</td>
-                                                <td class="text-center"> &emsp; <strong> {{ format_angka_indo(Auth::user()->saldo_xome) }} </strong></td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width: fit-content;">Kredit Point</td>
-                                                <td class="text-center"> &emsp; <strong> {{ format_angka_indo(Auth::user()->saldo_point) }} </strong></td>
-                                            </tr>
-                                            @if(cekRoleAkses('user'))
+                                            @if(cekRoleAkses('store'))
                                                 <tr>
-                                                    <td style="width: fit-content;">Mission </td>
-                                                    <td class="text-center"> &emsp; <strong> {{ $count_mission }} </strong></td>
+                                                    <td style="width: fit-content;">Event</td>
+                                                    <td class="text-center"> &emsp; <strong> 0 </strong> </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: fit-content;">Berita</td>
+                                                    <td class="text-center"> &emsp; <strong> 0 </strong> </td>
+                                                </tr>
+                                            @else
+                                                <tr>
+                                                    <td style="width: fit-content;">Tiket dimiliki</td>
+                                                    <td class="text-center"> &emsp; <strong> </strong></td>
                                                 </tr>
                                             @endif
                                         </table>

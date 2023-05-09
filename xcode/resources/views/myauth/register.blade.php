@@ -8,8 +8,8 @@
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-center align-self-center">
-                <img alt="" src="{{asset('statis/xpoint_logo.webp')}}"
-                     srcset="{{asset('statis/xpoint_logo.webp')}}">
+                <img alt="" src="{{asset('statis/event_planner_logo.png')}}"
+                     srcset="{{asset('statis/event_planner_logo.png')}}">
             </div>
             <br>
             <p class="mb-4 text-center">Register akun {{getSetting('app_name')}}</p>
@@ -27,16 +27,24 @@
                   method="POST">
                 @csrf
                 <div class="mb-3">
+                    <label for="username" class="form-label">Mendaftar Sebagai</label>
+                    <select name="role" class="form-control">
+                        <option value="user">Pengguna</option>
+                        <option value="store">Event Planner</option>
+                    </select>
+                    @error('role')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+                <div class="mb-3">
                     <label for="username" class="form-label">Email</label>
                     <br>
-                    <small>Email harus terdaftar di <a href="https://privatesale.xomerce.io">Private Sale Xomerce</a></small>
                     {{--<input type="text" class="form-control @error('email') is-invalid @enderror" id="email"
                            name="email" required placeholder="Enter your email" autofocus>--}}
                     <div class="input-group mb-3">
                         <input name="email" required type="text" id="email" class="form-control" placeholder="Email anda" aria-label="email anda" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button id="btnCekEmail" class="btn btn-outline-secondary btn-primary text-white" type="button">Cek</button>
-                        </div>
                     </div>
 
                     @error('email')

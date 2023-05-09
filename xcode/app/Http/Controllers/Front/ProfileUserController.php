@@ -37,7 +37,7 @@ class ProfileUserController extends Controller
         $view = 'myfront.user.profil';
 
         $data = [
-            'count_mission' => Submission::where('user_id',Auth::user()->id)->count()
+
         ];
 
         return view($view, $data);

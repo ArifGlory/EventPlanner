@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use App\Models\UserHasRole;
 use App\Providers\RouteServiceProvider;
@@ -42,41 +43,31 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'role' => ['required'],
             'name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', Rules\Password::defaults()],
         ]);
 
+        $role = Role::where('role_name',$request->input('role'))->first();
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'level' => "user",
+            'password' => Hash::make($request->password),
+        ]);
 
-        //cek ketersediaan email dahulu
-        $email = $request->input('email');
-        $url = $this->BASE_URL_API."emailcek?email=".$email;
+        $usr_has_role = UserHasRole::create([
+            'user_id' => $user->id,
+            'role_id' => $role->id_role,
+        ]);
 
-        $client = new \GuzzleHttp\Client();
-        $response = $client->request('GET', $url);
+        event(new Registered($user));
+        Auth::login($user);
 
-        if ($response->getStatusCode() == 200){
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'level' => "user",
-                'password' => Hash::make($request->password),
-            ]);
-
-            $usr_has_role = UserHasRole::create([
-                'user_id' => $user->id,
-                'role_id' => 4,
-            ]);
-
-            event(new Registered($user));
-            Auth::login($user);
-
-            return redirect(RouteServiceProvider::PROFILE_USER);
-        }else{
-            return Redirect::back()->withErrors(['msg' => 'Email tidak terdaftar pada website private sale xomerce, silahkan daftarkan diri dahulu']);
-        }
+        return redirect(RouteServiceProvider::PROFILE_USER);
 
 
     }
