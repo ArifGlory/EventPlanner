@@ -51,7 +51,7 @@ class EventController  extends Controller
     public function data(Request $request)
     {
         if (cekRoleAkses('store')){
-            $data = Event::leftjoin('category', 'category.id', '=', 'event.event_category_id')
+            $data = Event::leftjoin('category', 'category.category_id', '=', 'event.event_category_id')
                 ->where('event.event_pemilik',Auth::user()->id)
                 ->get();
         }else if (cekRoleAkses('superadmin') || cekRoleAkses('admin')){
@@ -113,12 +113,15 @@ class EventController  extends Controller
             'action' => url('main/event/create'),
             'id' => '',
             'event_name' => old('event_name', ''),
+            'event_category_id' => old('event_category_id', ''),
             'event_waktu' => old('event_waktu', ''),
             'event_talent' => old('event_talent', ''),
             'event_lokasi' => old('event_lokasi', ''),
             'event_harga_tiket' => old('event_harga_tiket', ''),
             'event_stok_tiket' => old('event_stok_tiket', ''),
             'event_poster' => old('event_poster', ''),
+            'event_discount' => old('event_discount', ''),
+            'event_description' => old('event_description', ''),
 
         ];
         $view = 'mypanel.event.form';

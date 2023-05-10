@@ -59,7 +59,7 @@ $titlePage = 'Event';
                                                 class="select2 form-control"
                                                 name="select_jenis_id" id="select_jenis_id" multiple>
                                             @foreach($category as $val)
-                                                <option value="{{$val->id}}"> {{$val->category_name}} </option>
+                                                <option value="{{$val->category_id}}"> {{$val->category_name}} </option>
                                             @endforeach
                                         </select>
                                     </div>
