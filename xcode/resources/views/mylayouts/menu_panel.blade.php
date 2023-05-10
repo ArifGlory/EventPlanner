@@ -26,7 +26,7 @@
                 @if(cekRoleAkses('superadmin') || cekRoleAkses('admin') || cekRoleAkses('store'))
 
                     <li class="nav-item">
-                        <a href="{{url('main/stores')}}" class="nav-link {{ activeMenu('main/stores') }}">
+                        <a href="{{url('main/event')}}" class="nav-link {{ activeMenu('main/event') }}">
                             <i class="nav-icon fas fa-star"></i>
                             <p>
                                 Event

@@ -51,8 +51,9 @@ class ProfileController extends Controller
             $dataMember = [
               'foto' => $avatar
             ];
-            //$this->myService->update($master, $requestData);
-            updateData($master, $dataMember, 'profil', false);
+            $this->myService->update($master, $dataMember);
+            unset($requestData['foto']);
+           // updateData($master, $dataMember, 'profil', false);
         }
         return updateData($master, $requestData, 'profil');
 

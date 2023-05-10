@@ -78,6 +78,9 @@ class EventController  extends Controller
             ->editColumn('event_harga_tiket', function ($row) {
                 return $row->event_harga_tiket ? format_angka_indo($row->event_harga_tiket) : '';
             })
+            ->editColumn('event_waktu', function ($row) {
+                return $row->event_waktu ? TanggalIndowaktu($row->event_waktu) : '';
+            })
             ->addColumn('action', function ($row) {
                 $izin = '';
                 $aksiDetail = detailButtonDT($row->product_id, 'main/event/detail');
