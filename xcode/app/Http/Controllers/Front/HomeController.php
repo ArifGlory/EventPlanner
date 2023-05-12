@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\BibitMani;
+use App\Models\Event;
 use App\Models\HargaKomoditas;
 use App\Models\KomoditasTernak;
 use App\Models\MaterialMaster;
@@ -35,12 +36,14 @@ class HomeController extends Controller
     {
         $view = 'myfront.index';
         $now = date('Y-m-d');
+        $new_events = Event::leftjoin('users', 'event.created_by', '=', 'users.id')
+            ->orderBy('event.created_at',"DESC")
+            ->limit(5)
+            ->get();
+
 
         $data = [
-           // 'produk' => Product::count(),
-            //'store' => Stores::count(),
-            //'pengguna' => User::count(),
-            //'voucher' => Voucher::count(),
+            'new_events' => $new_events,
             /*'new_voucher' => Voucher::leftjoin('store', 'store.store_id', '=', 'voucher.store_id')
                 ->where('voucher.voucher_end_date','>=',$now)
                 ->orderBy('voucher_id',"DESC")

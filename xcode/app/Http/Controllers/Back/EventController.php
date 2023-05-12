@@ -172,39 +172,25 @@ class EventController  extends Controller
 
     public function edit($id)
     {
-        $master = $this->myService->find(Product::class, decodeId($id));
-        $selected_stores = Stores::find($master->store_id);
-        $selected_subcategory = SubCategory::find($master->subcategory_id);
-
-        if (cekRoleAkses('store')){
-            $stores = Stores::where('store_pemilik',Auth::user()->id)
-                ->get();
-        }else{
-            $stores = Stores::all();
-        }
+        $master = $this->myService->find(Event::class, decodeId($id));
+        $selected_category = Category::find($master->event_category_id);
 
         $data =
             [
                 'mode' => 'edit',
-                'subcategory' => SubCategory::all(),
-                'stores' => $stores,
-                'selected_stores' => $selected_stores,
-                'selected_subcategory' => $selected_subcategory,
+                'category' => Category::all(),
+                'selected_category' => $selected_category,
                 'action' => url('main/event/update/' . $id),
                 'id' => $id,
-                'store_id' => old('store_id', $master->store_id),
-                'subcategory_id' => old('subcategory_id', $master->subcategory_id),
-                'product_name' => old('product_name', $master->product_name),
-                'product_price' => old('product_price', $master->product_price),
-                'product_old_price' => old('product_old_price', $master->product_old_price),
-                'product_currency' => old('product_currency', $master->product_currency),
-                'product_description' => old('product_description', $master->product_description),
-                'product_url' => old('product_url', $master->product_url),
-                'product_tags' => old('product_tags', $master->product_tags),
-                'product_image' => old('product_image', $master->product_image),
-                'product_discount_start_date' => old('product_discount_start_date', $master->product_discount_start_date),
-                'product_discount_end_date' => old('product_discount_end_date', $master->product_discount_end_date),
-                'product_status' => old('product_status', $master->product_status),
+                'event_category_id' => old('subcategory_id', $master->event_category_id),
+                'event_name' => old('event_name', $master->event_name),
+                'event_waktu' => old('event_waktu', $master->event_waktu),
+                'event_talent' => old('event_talent', $master->event_talent),
+                'event_lokasi' => old('event_lokasi', $master->event_lokasi),
+                'event_harga_tiket' => old('event_harga_tiket', $master->event_harga_tiket),
+                'event_stok_tiket' => old('event_stok_tiket', $master->event_stok_tiket),
+                'event_poster' => old('event_poster', $master->event_poster),
+                'event_description' => old('event_description', $master->event_description),
             ];
         $view = 'mypanel.event.form';
 

@@ -19,7 +19,7 @@ class Category extends Model
 
 
     const TABLE = 'category';
-    const PRIMARYKEY = 'id';
+    const PRIMARYKEY = 'category_id';
     protected $table = self::TABLE;
     protected $primaryKey = self::PRIMARYKEY;
     /**
@@ -29,13 +29,13 @@ class Category extends Model
      */
 
     protected $guarded = [
-        'id',
+        'category_id',
     ];
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->useLogName('xpoint')
+            ->useLogName('sivp')
             ->logOnly(['category_name'])
             ->logOnlyDirty(true)
             ->dontLogIfAttributesChangedOnly(['created_at', 'updated_at'])

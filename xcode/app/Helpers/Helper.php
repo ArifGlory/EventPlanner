@@ -539,6 +539,17 @@ if (!function_exists('getImageOri')) {
     }
 }
 
+if (!function_exists('getImageUri')) {
+    function getImageUri($image)
+    {
+        $avatar = asset('statis/noicon.png');
+        if ($image) {
+            $avatar = asset('thumbnail/' . $image);
+        }
+        return $avatar;
+    }
+}
+
 if (!function_exists('getImageThumb')) {
     function getImageThumb($image)
     {
