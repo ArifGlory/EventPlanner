@@ -52,7 +52,7 @@ class EventController  extends Controller
     {
         if (cekRoleAkses('store')){
             $data = Event::leftjoin('category', 'category.category_id', '=', 'event.event_category_id')
-                ->where('event.event_pemilik',Auth::user()->id)
+                ->where('event.created_by',Auth::user()->id)
                 ->get();
         }else if (cekRoleAkses('superadmin') || cekRoleAkses('admin')){
             $data = Product::get();
@@ -132,30 +132,26 @@ class EventController  extends Controller
     {
 
         $rule = [
-            'subcategory_id' => 'required',
-            'store_id' => 'required',
-            'product_name' => 'required',
-            'product_tags' => 'required',
-            'product_old_price' => 'required',
-            'product_price' => 'required',
-            'product_description' => 'required',
-            'product_url' => 'required',
-            'product_discount_start_date' => 'required',
-            'product_discount_end_date' => 'required',
-            'product_image' => 'required|mimes:jpeg,png,jpg|max:2048',
+            'event_category_id' => 'required',
+            'event_name' => 'required',
+            'event_waktu' => 'required',
+            'event_talent' => 'required',
+            'event_lokasi' => 'required',
+            'event_harga_tiket' => 'required',
+            'event_stok_tiket' => 'required',
+            'event_description' => 'required',
+            'event_poster' => 'required|mimes:jpeg,png,jpg|max:2048',
         ];
         $attributeRule = [
-            'subcategory_id' => 'Kategori produk',
-            'store_id' => 'Toko pemilik',
-            'product_name' => 'nama produk',
-            'product_tags' => 'Tag produk',
-            'product_old_price' => 'harga awal produk',
-            'product_price' => 'harga diskon produk',
-            'product_description' => 'deskripsi produk',
-            'product_url' => 'link url produk',
-            'product_discount_start_date' => 'waktu mulai diskon',
-            'product_discount_end_date' => 'waktu akhir diskon',
-            'product_image' => 'foto produk',
+            'event_category_id' => 'Kategori event',
+            'event_name' => 'nama event',
+            'event_waktu' => 'waktu event',
+            'event_lokasi' => 'lokasi event',
+            'event_harga_tiket' => 'harga tiket event',
+            'event_stok_tiket' => 'stok tiket event',
+            'event_description' => 'deskripsi event',
+            'event_talent' => 'talent event',
+            'event_poster' => 'foto event',
         ];
         $this->validate($request,
             $rule,
@@ -166,12 +162,12 @@ class EventController  extends Controller
         $requestData = $request->all();
         $requestData['created_by'] = Auth::user()->id;
 
-        if ($request->hasFile('product_image')) {
-            $requestData['product_image'] = StoreFileWithFolder($request->file('product_image'), 'public', 'produk');
+        if ($request->hasFile('event_poster')) {
+            $requestData['event_poster'] = StoreFileWithFolder($request->file('event_poster'), 'public', 'event');
         }
 
 
-        return storeData(Product::class, $requestData, $this->context, true, 'main/event');
+        return storeData(Event::class, $requestData, $this->context, true, 'main/event');
     }
 
     public function edit($id)

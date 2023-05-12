@@ -56,7 +56,7 @@
                 },
 
                 {
-                    data: 'product_price', name: 'product_price',
+                    data: 'event_waktu', name: 'event_waktu',
                 },
 
                 {
@@ -71,7 +71,7 @@
             ],
             @component('mycomponents.callbackDatatablejs')
                 @slot('primarykey')
-                product_id
+                event_id
             @endslot
             @endcomponent
 
