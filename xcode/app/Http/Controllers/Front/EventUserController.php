@@ -67,13 +67,11 @@ class EventUserController extends Controller
         $other_event =  Event::inRandomOrder()
             ->limit(5)
             ->get();
-        $isJoined = false;
         $event_time = substr($event->event_waktu,11,5);
 
         $data = [
             'event' => $event,
             'other_event' => $other_event,
-            'isJoined' => $isJoined,
             'event_time' => $event_time
         ];
 

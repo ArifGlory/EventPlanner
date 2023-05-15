@@ -35,7 +35,7 @@
                                 <a class="nav-link" href="{{ url(('/event'))  }}">Event</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url(('/'))  }}"> Penyelenggara </a>
+                                <a class="nav-link" href="{{ url(('/planner'))  }}"> Penyelenggara </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{url('/')}}">Berita</a>

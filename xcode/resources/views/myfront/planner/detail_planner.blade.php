@@ -1,11 +1,11 @@
 @extends('mylayouts.layout_front_sb')
-@section('title', $reward->reward_name)
+@section('title', $planner->name)
 @push('css')
 @endpush
 @section('content')
     <section class="wrapper bg-soft-primary" id="pelakuusaha">
         <div class="container py-14 py-md-16">
-            <h1> {{$reward->reward_name}} </h1>
+            <h1> {{$planner->name}} </h1>
             <div class="row gx-lg-8 gx-xl-12 mt-5">
                 <div class="col-lg-8">
                     <div class="blog classic-view">
@@ -15,24 +15,29 @@
                                     @include('mycomponents.alert_front')
                                 </div>
                                 <figure class="card-img-top overlay overlay-1 hover-scale">
-                                    <a href="{{ getImageOri($reward->reward_image)  }}"><img src="{{ getImageOri($reward->reward_image)  }}" alt="" /></a>
+                                    <a href="{{ getImageOri($planner->foto)  }}"><img src="{{ getImageOri($planner->foto)  }}" alt="" /></a>
                                 </figure>
                                 <div class="card-body">
                                     <div class="post-header">
-                                        <h2 class="post-title mt-1 mb-0"><a class="link-dark" href="#">{{$reward->reward_name}}</a></h2>
-                                        <br>
+                                        <!-- /.post-category -->
+                                        <h2 class="post-title mt-1 mb-0"><a class="link-dark" href="#">{{$planner->name}}</a></h2>
+                                        <p>
+                                            Beralamat di <strong>{{$planner->alamat != null ? $planner->alamat : "alamat belum dilengkapi"}}</strong>
+                                            <br>
+                                            kontak <strong>{{$planner->phone}}</strong>
+                                        </p>
                                     </div>
                                     <!-- /.post-header -->
                                     <div class="post-content">
-                                       {!! $reward->reward_description !!}
-                                        <br>
-                                        <a href="#" class="btn btn-primary rounded me-2">Dapatkan reward &nbsp;&nbsp;<i
-                                                class="ml-4 fas fa-shopping-cart" style="color: white !important;"></i> </a>
+                                        {!! $planner->store_description !!}
                                     </div>
                                     <!-- /.post-content -->
                                 </div>
                                 <!--/.card-body -->
                                 <div class="card-footer">
+                                    <ul class="post-meta d-flex mb-0">
+                                        <li class="post-date"> <strong> Bergabung sejak <span>{{ rubah_tanggal_indo($planner->created_at)  }}</span> </strong> </li>
+                                    </ul>
                                     <!-- /.post-meta -->
                                 </div>
                                 <!-- /.card-footer -->
@@ -44,17 +49,17 @@
                 <!-- /column -->
                 <aside class="col-lg-4 sidebar mt-8 mt-lg-6">
                     <div class="widget">
-                        <h4 class="widget-title mb-3">Yuk cek reward lainnya</h4>
+                        <h4 class="widget-title mb-3">Yuk cek penyelenggara lainnya</h4>
                         <ul class="image-list">
-                            @foreach($other_reward as $val)
+                            @foreach($other_planner as $val)
                                 <li>
                                     <figure class="rounded">
-                                        <a href="{{url('/detail-reward/'.encodeId($val->reward_id))}}">
-                                            <img src="{{ getImageOri($val->reward_image)  }}" alt="" />
+                                        <a href="{{url('/planner/detail/'.encodeId($val->id))}}">
+                                            <img src="{{ getImageOri($val->foto)  }}" alt="" />
                                         </a>
                                     </figure>
                                     <div class="post-content">
-                                        <h6 class="mb-2"> <a class="link-dark" href="{{url('/detail-reward/'.encodeId($val->reward_id))}}">{{$val->reward_name}}</a> </h6>
+                                        <h6 class="mb-2"> <a class="link-dark" href="{{url('/planner/detail/'.encodeId($val->id))}}">{{$val->name}}</a> </h6>
                                         <!-- /.post-meta -->
                                     </div>
                                 </li>
@@ -73,6 +78,7 @@
 @endsection
 @push('scripts')
     <script type="text/javascript">
-
+        $( document ).ready(function() {
+        });
     </script>
 @endpush

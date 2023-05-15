@@ -35,33 +35,14 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [HomeController::class, 'index']);
-Route::get('/pelaku-usaha', [HomeController::class, 'pelakuUsaha']);
-
-Route::get('/mission', [MissionUserController::class, 'index']);
-Route::get('/mission/detail/{id}', [MissionUserController::class, 'detailMission']);
-Route::get('/mission/join/{id}', [MissionUserController::class, 'joinMission'])->middleware('useraccess');
-Route::get('/mission/submission/{id}', [MissionUserController::class, 'submission'])->middleware('useraccess');
-Route::post('/mission/submission/store', [MissionUserController::class, 'storeSubmission'])->middleware('useraccess');
+Route::get('/planner', [HomeController::class, 'eventPlanner']);
+Route::get('/planner/detail/{id}', [HomeController::class, 'detailPlanner']);
 
 Route::get('/event', [EventUserController::class, 'index']);
 Route::get('/event/detail/{id}', [EventUserController::class, 'detailEvent']);
 Route::get('/event/buy/{id}', [EventUserController::class, 'buyTicket']);
 
-Route::get('/reward', [HomeController::class, 'reward']);
-Route::get('/detail-reward/{id}', [HomeController::class, 'detailReward']);
-Route::get('/leaderboard', [HomeController::class, 'leaderboard']);
 
-
-Route::get('/produk', [HomeController::class, 'produk']);
-Route::get('/detail-produk/{id}', [HomeController::class, 'detailProduk']);
-Route::get('/produk-link/{id}', [HomeController::class, 'produkLink'])->middleware('useraccess');
-
-Route::get('/voucher', [HomeController::class, 'voucher']);
-Route::get('/detail-voucher/{id}', [HomeController::class, 'detailVoucher']);
-Route::get('/use-voucher/{id}', [HomeController::class, 'useVoucher'])->middleware('useraccess');
-
-Route::get('/web3-login-message', [Web3LoginController::class, 'message'])->name('web3.message');
-Route::post('/web3-login-verify', [Web3LoginController::class, 'verify'])->name('web3.verify');
 
 Route::group(['prefix' => 'user', 'middleware' => ['user_and_store']], function () {
     Route::get('/', [ProfileUserController::class, 'index']);

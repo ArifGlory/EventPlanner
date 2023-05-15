@@ -54,202 +54,49 @@ class HomeController extends Controller
         return view($view, $data);
     }
 
-    public function leaderboard(){
-        $view = 'myfront.leaderboard';
-        $leaderboard = User::select(
-            'name','email','saldo_point','foto','wallet_address'
-            )
-            ->where('level','user')
-            ->orderBy('saldo_point',"DESC")
-            ->paginate(10);
-
-        $data = [
-            'leaderboard' => $leaderboard,
-        ];
-
-        return view($view, $data);
-    }
-
-    public function reward(Request $request){
-        $view = 'myfront.reward';
+    public function eventPlanner(Request $request){
+        $view = 'myfront.planner.index';
         $keyword = "";
 
         if ($request->input('search')){
             $keyword = $request->input('search');
-            $reward = Reward::where('reward_status',1)
-                ->where('reward_name','LIKE','%'.$keyword.'%')
+            $planner = User::leftjoin('user_has_role', 'user_has_role.user_id', '=', 'users.id')
+                ->where('users.name','LIKE','%'.$keyword.'%')
+                ->where('user_has_role.role_id',3)
                 ->paginate(10);
         }else{
-            $reward = Reward::where('reward_status',1)
+            $planner = User::leftjoin('user_has_role', 'user_has_role.user_id', '=', 'users.id')
+                ->where('user_has_role.role_id',3)
                 ->paginate(10);
         }
 
         $data = [
-            'reward' => $reward,
+            'planner' => $planner,
             'keyword' => $keyword
         ];
 
         return view($view, $data);
+
     }
 
-    public function detailReward($id){
-        $reward = Reward::find(decodeId($id));
+    public function detailPlanner($id){
+        $view = 'myfront.planner.detail_planner';
 
-        $other_reward =  Reward::inRandomOrder()
-            ->limit(3)
-            ->get();
-        $view = 'myfront.detail_reward';
-
-        $data = [
-            'reward' => $reward,
-            'other_reward' => $other_reward,
-        ];
-
-        return view($view, $data);
-    }
-
-    public function produk(Request $request){
-        $view = 'myfront.produk_usaha';
-        $now = date('Y-m-d');
-        $keyword = "";
-
-        if ($request->input('search')){
-            $keyword = $request->input('search');
-            $produk = Product::leftjoin('store', 'store.store_id', '=', 'product.store_id')
-                ->leftjoin('master_sub_category', 'master_sub_category.subcategory_id', '=', 'product.subcategory_id')
-                ->where('product.product_discount_end_date','>=',$now)
-                ->where('product.product_name','LIKE','%'.$keyword.'%')
-                ->paginate(10);
-        }else{
-            $produk = Product::leftjoin('store', 'store.store_id', '=', 'product.store_id')
-                ->leftjoin('master_sub_category', 'master_sub_category.subcategory_id', '=', 'product.subcategory_id')
-                ->where('product.product_discount_end_date','>=',$now)
-                ->paginate(10);
-        }
-
-        $data = [
-            'produk' => $produk,
-            'keyword' => $keyword
-        ];
-
-        return view($view, $data);
-    }
-
-    public function detailProduk($id){
-        $product = Product::leftjoin('store', 'store.store_id', '=', 'product.store_id')
-            ->leftjoin('master_sub_category', 'master_sub_category.subcategory_id', '=', 'product.subcategory_id')
-            ->where('product.product_id',decodeId($id))
-            ->first();
-        $tags = explode(",",$product->product_tags);
-        $some_category = SubCategory::inRandomOrder()
-            ->limit(10)
-            ->get();
-        $other_product =  Product::leftjoin('store', 'store.store_id', '=', 'product.store_id')
+        $planner = User::find(decodeId($id));
+        $other_planner =  User::leftjoin('user_has_role', 'user_has_role.user_id', '=', 'users.id')
+            ->where('user_has_role.role_id',3)
             ->inRandomOrder()
-            ->limit(3)
+            ->limit(5)
             ->get();
-        $view = 'myfront.detail_produk';
 
         $data = [
-            'product' => $product,
-            'tags' => $tags,
-            'some_category' => $some_category,
-            'other_product' => $other_product,
+            'planner' => $planner,
+            'other_planner' => $other_planner,
         ];
 
         return view($view, $data);
     }
 
-    public function produkLink($id){
-        $product = Product::find(decodeId($id));
-
-        if ($product->product_url){
-            return Redirect::to($product->product_url);
-        }else{
-            $msgerror = 'Mohon maaf link produk sedang bermasalah, coba lagi nanti ';
-            return res500(\request()->ajax(), $msgerror);
-        }
-    }
-
-    public function pelakuUsaha(Request $request){
-        $view = 'myfront.pelaku_usaha';
-        $keyword = "";
-
-        if ($request->input('search')){
-            $keyword = $request->input('search');
-            $stores = Stores::where('store.store_name','LIKE','%'.$keyword.'%')
-                ->paginate(10);
-        }else{
-            $stores = Stores::paginate(10);
-        }
-
-        $data = [
-            'stores' => $stores,
-            'keyword' => $keyword
-        ];
-
-        return view($view, $data);
-    }
-
-    public function voucher(Request $request){
-        $view = 'myfront.voucher';
-        $now = date('Y-m-d');
-        $keyword = "";
-
-        if ($request->input('search')){
-            $keyword = $request->input('search');
-            $voucher = Voucher::leftjoin('store', 'store.store_id', '=', 'voucher.store_id')
-                ->where('voucher.voucher_end_date','>=',$now)
-                ->where('voucher.voucher_name','LIKE','%'.$keyword.'%')
-                ->paginate(10);
-        }else{
-            $voucher = Voucher::leftjoin('store', 'store.store_id', '=', 'voucher.store_id')
-                ->where('voucher.voucher_end_date','>=',$now)
-                ->paginate(10);
-        }
-
-        $data = [
-            'voucher' => $voucher,
-            'keyword' => $keyword
-        ];
-
-        return view($view, $data);
-    }
-
-    public function detailVoucher($id){
-        $voucher = Voucher::leftjoin('store', 'store.store_id', '=', 'voucher.store_id')
-            ->where('voucher_id',decodeId($id))
-            ->first();
-        $tags = explode(",",$voucher->voucher_tags);
-        $some_category = SubCategory::inRandomOrder()
-            ->limit(10)
-            ->get();
-        $other_voucher =  Voucher::leftjoin('store', 'store.store_id', '=', 'voucher.store_id')
-            ->inRandomOrder()
-            ->limit(3)
-            ->get();
-        $view = 'myfront.detail_voucher';
-
-        $data = [
-            'voucher' => $voucher,
-            'tags' => $tags,
-            'some_category' => $some_category,
-            'other_voucher' => $other_voucher,
-        ];
-
-        return view($view, $data);
-    }
-
-    public function useVoucher($id){
-        $voucher = Voucher::find(decodeId($id));
-
-        if ($voucher->voucher_url){
-            return Redirect::to($voucher->voucher_url);
-        }else{
-            $msgerror = 'Mohon maaf link voucher sedang bermasalah, coba lagi nanti ';
-            return res500(\request()->ajax(), $msgerror);
-        }
-    }
 
 
 
