@@ -1,11 +1,11 @@
 @extends('mylayouts.layout_panel')
 <?php
-$modenya = $mode == 'add' ? 'tambah event' : 'ubah event';
+$modenya = $mode == 'add' ? 'tambah berita' : 'ubah berita';
 $titlePage = $modenya;
 ?>
 @section('title', ucwords($titlePage))
 @push('css')
-
+    <link rel="stylesheet" href="{{asset('backtemplate/plugins/summernote/summernote.css')}}">
 @endpush
 @section('content')
     <div class="content-header">
@@ -19,7 +19,7 @@ $titlePage = $modenya;
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="{{url('main/event')}}">List</a></li>
+                        <li class="breadcrumb-item"><a href="{{url('main/berita')}}">List</a></li>
                         <li class="breadcrumb-item active">{{ucwords($titlePage)}}</li>
                     </ol>
                 </div>
@@ -56,10 +56,10 @@ $titlePage = $modenya;
                                                             <div class="user-picture-section mb-3">
                                                                 <div class=" d-flex align-items-center flex-column">
                                                                     <a class="image-popup-no-margins"
-                                                                       href="{{getImageOri($event_poster)}}">
+                                                                       href="{{getImageOri($berita_image)}}">
                                                                         <img
                                                                             class="img-fluid rounded my-4 img-preview_gambar"
-                                                                            src="{{getImageOri($event_poster)}}"
+                                                                            src="{{getImageOri($berita_image)}}"
                                                                             height="110"
                                                                             width="110"
                                                                             alt="User picture">
@@ -70,11 +70,10 @@ $titlePage = $modenya;
                                                     @endif
                                                     <div class="col-lg-12">
                                                         <div class="mb-3">
-                                                            <label class="form-label" for="event_category_id">Kategori
-                                                                Event </label>
+                                                            <label class="form-label" for="berita_category_id">Kategori </label>
                                                             <select style="width:100%"
-                                                                    class="select2 form-control  @error('event_category_id') is-invalid @enderror"
-                                                                    name="event_category_id" id="event_category_id">
+                                                                    class="select2 form-control  @error('berita_category_id') is-invalid @enderror"
+                                                                    name="berita_category_id" id="berita_category_id">
                                                                 @if($mode == "edit")
                                                                     <option value="{{$selected_category->category_id}}">
                                                                         Terpilih
@@ -85,7 +84,7 @@ $titlePage = $modenya;
                                                                         value="{{$val->category_id}}"> {{$val->category_name}} </option>
                                                                 @endforeach
                                                             </select>
-                                                            @error('event_category_id')
+                                                            @error('berita_category_id')
                                                             <div class="invalid-feedback">
                                                                 {{ $message }}
                                                             </div>
@@ -94,48 +93,13 @@ $titlePage = $modenya;
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <div class="mb-3">
-                                                            <label class="form-label" for="mm_nama">Nama Event</label>
+                                                            <label class="form-label" for="mm_nama">Judul Berita</label>
                                                             <input
-                                                                class="form-control @error('event_name') is-invalid @enderror"
+                                                                class="form-control @error('berita_title') is-invalid @enderror"
                                                                 name="event_name" id="event_name" type="text"
-                                                                value="{{ $event_name }}"
+                                                                value="{{ $berita_title }}"
                                                                 autofocus/>
-                                                            @error('event_name')
-                                                            <div class="invalid-feedback">
-                                                                {{ $message }}
-                                                            </div>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="mb-3">
-                                                            <label class="form-label"> Harga Tiket <small>harga sebelum
-                                                                    diskon</small> </label>
-
-                                                            <input
-                                                                class="form-control @error('event_harga_tiket') is-invalid @enderror"
-                                                                name="event_harga_tiket" id="event_harga_tiket"
-                                                                type="number"
-                                                                value="{{ $event_harga_tiket }}"/>
-                                                            @error('event_harga_tiket')
-                                                            <div class="invalid-feedback">
-                                                                {{ $message }}
-                                                            </div>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="mb-3">
-                                                            <label class="form-label"> Stok tiket <small>anda dapat
-                                                                    membatasi jumlah tiket dengan batasan
-                                                                    tertenu</small> </label>
-
-                                                            <input
-                                                                class="form-control @error('event_stok_tiket') is-invalid @enderror"
-                                                                name="event_stok_tiket" id="event_stok_tiket"
-                                                                type="number"
-                                                                value="{{ $event_stok_tiket }}"/>
-                                                            @error('event_stok_tiket')
+                                                            @error('berita_title')
                                                             <div class="invalid-feedback">
                                                                 {{ $message }}
                                                             </div>
@@ -144,64 +108,17 @@ $titlePage = $modenya;
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <div class="mb-3">
-                                                            <label class="form-label" for="product_url">Waktu
-                                                                Event</label>
-                                                            <input
-                                                                class="form-control @error('event_waktu') is-invalid @enderror"
-                                                                name="event_waktu" id="product_url"
-                                                                type="datetime-local"
-                                                                value="{{ $event_waktu }}"
-                                                                autofocus/>
-                                                            @error('product_url')
-                                                            <div class="invalid-feedback">
-                                                                {{ $message }}
-                                                            </div>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <div class="mb-3">
-                                                            <label class="form-label" for="bobot">Deskripsi</label>
+                                                            <label class="form-label" for="bobot">Isi Berita</label>
                                                             <textarea
-                                                                class="form-control @error('event_description') is-invalid @enderror"
-                                                                id="exampleFormControlTextarea1" rows="3"
-                                                                name="event_description">{{$event_description}}</textarea>
-                                                            @error('event_description')
+                                                                class="form-control @error('berita_content') is-invalid @enderror"
+                                                                id="my-summernote" name="berita_content">{{$berita_content}}</textarea>
+                                                            @error('berita_content')
                                                             <div class="invalid-feedback">
                                                                 {{ $message }}
                                                             </div>
                                                             @enderror
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12">
-                                                        <div class="mb-3">
-                                                            <label class="form-label" for="bobot">Lokasi event</label>
-                                                            <textarea
-                                                                class="form-control @error('event_lokasi') is-invalid @enderror"
-                                                                id="exampleFormControlTextarea1" rows="3"
-                                                                name="event_lokasi">{{$event_lokasi}}</textarea>
-                                                            @error('event_lokasi')
-                                                            <div class="invalid-feedback">
-                                                                {{ $message }}
-                                                            </div>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                        <div class="col-lg-12">
-                                                            <div class="mb-3">
-                                                                <label class="form-label" for="bobot">Talent</label>
-                                                                <small>Artis atau yang memeriahkan acara event</small>
-                                                                <textarea
-                                                                    class="form-control @error('event_talent') is-invalid @enderror"
-                                                                    id="exampleFormControlTextarea1" rows="3"
-                                                                    name="event_talent">{{$event_talent}}</textarea>
-                                                                @error('event_talent')
-                                                                <div class="invalid-feedback">
-                                                                    {{ $message }}
-                                                                </div>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -213,17 +130,16 @@ $titlePage = $modenya;
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <div class="mb-3">
-                                                            <label class="form-label" for="is_active">Poster
-                                                                Event</label>
+                                                            <label class="form-label" for="is_active">Gambar berita</label>
                                                             <br>
-                                                            <small>Di isi jika ingin mengubah gambar poster
+                                                            <small>Di isi jika ingin mengubah gambar berita
                                                                 event</small>
                                                             <div class="custom-file">
-                                                                <input id="product_image"
-                                                                       class="custom-file-input @error('event_poster') is-invalid @enderror"
-                                                                       type="file" name="event_poster"
+                                                                <input id="berita_image"
+                                                                       class="custom-file-input @error('berita_image') is-invalid @enderror"
+                                                                       type="file" name="berita_image"
                                                                        accept="image/*"
-                                                                       onchange="previewImg('event_poster')">
+                                                                       onchange="previewImg('berita_image')">
                                                                 <label class="custom-file-label"
                                                                        for="event_poster">PILIH</label>
                                                             </div>
@@ -284,9 +200,11 @@ $titlePage = $modenya;
     </div>
 @endsection
 @push('scripts')
+    <script src="{{asset('backtemplate/plugins/summernote/summernote.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            changeTextFile('event_poster');
+            changeTextFile('berita_image');
+            $("#my-summernote").summernote();
         });
     </script>
 
