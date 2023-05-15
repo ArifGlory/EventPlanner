@@ -38,7 +38,7 @@
                                 <a class="nav-link" href="{{ url(('/planner'))  }}"> Penyelenggara </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{url('/')}}">Berita</a>
+                                <a class="nav-link" href="{{url('/berita')}}">Berita</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{url('/')}}">Peta Event</a>

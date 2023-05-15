@@ -11,6 +11,7 @@ use App\Http\Controllers\Back\SettingController;
 use App\Http\Controllers\Back\UserController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\EventUserController;
+use App\Http\Controllers\Front\BeritaUserController;
 use App\Http\Controllers\Front\ProfileUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,9 @@ Route::get('/planner/detail/{id}', [HomeController::class, 'detailPlanner']);
 Route::get('/event', [EventUserController::class, 'index']);
 Route::get('/event/detail/{id}', [EventUserController::class, 'detailEvent']);
 Route::get('/event/buy/{id}', [EventUserController::class, 'buyTicket']);
+
+Route::get('/berita', [BeritaUserController::class, 'index']);
+Route::get('/berita/detail/{id}', [BeritaUserController::class, 'detail']);
 
 
 

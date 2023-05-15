@@ -63,7 +63,8 @@
                                         <!-- /.post-header -->
                                         <div class="post-footer">
                                             <ul class="post-meta mb-0">
-                                                <li class="post-comments"><a href="#"><i
+                                                <li class="post-comments">
+                                                    <a href="#"><i
                                                             class="uil uil-comment"></i>
                                                         {{ \Illuminate\Support\Str::limit($val->event_description, 100, $end='...') }}
                                                     </a>
