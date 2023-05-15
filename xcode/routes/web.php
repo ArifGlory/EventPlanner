@@ -17,6 +17,7 @@ use App\Http\Controllers\Back\SettingController;
 use App\Http\Controllers\Back\UserController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\MissionUserController;
+use App\Http\Controllers\Front\EventUserController;
 use App\Http\Controllers\Front\ProfileUserController;
 use App\Http\Controllers\Front\Web3LoginController;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,10 @@ Route::get('/mission/detail/{id}', [MissionUserController::class, 'detailMission
 Route::get('/mission/join/{id}', [MissionUserController::class, 'joinMission'])->middleware('useraccess');
 Route::get('/mission/submission/{id}', [MissionUserController::class, 'submission'])->middleware('useraccess');
 Route::post('/mission/submission/store', [MissionUserController::class, 'storeSubmission'])->middleware('useraccess');
+
+Route::get('/event', [EventUserController::class, 'index']);
+Route::get('/event/detail/{id}', [EventUserController::class, 'detailEvent']);
+Route::get('/event/buy/{id}', [EventUserController::class, 'buyTicket']);
 
 Route::get('/reward', [HomeController::class, 'reward']);
 Route::get('/detail-reward/{id}', [HomeController::class, 'detailReward']);

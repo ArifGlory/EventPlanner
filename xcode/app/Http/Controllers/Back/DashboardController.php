@@ -43,7 +43,7 @@ class DashboardController extends Controller
     {
 
         $data = [
-            'event' => Event::where('event_pemilik',Auth::user()->id)
+            'event' => Event::where('created_by',Auth::user()->id)
                 ->count(),
         ];
 
