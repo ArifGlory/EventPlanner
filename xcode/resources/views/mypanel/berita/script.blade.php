@@ -5,7 +5,7 @@
         table = $('#hideyori_datatable').DataTable({
             @include('mycomponents.configDatatablejs')
             ajax: {
-                url: "{{ url('main/stores/data') }}",
+                url: "{{ url('main/berita/data') }}",
                 type: "GET",
                 data: function (d) {
                     //d.created_by = $('#created_by').val();
@@ -48,11 +48,15 @@
 
 
                 {
-                    data: 'store_name', name: 'store_name',
+                    data: 'berita_title', name: 'berita_title',
                 },
 
                 {
-                    data: 'store_type', name: 'store_type',
+                    data: 'category_name', name: 'category_name',
+                },
+
+                {
+                    data: 'created_at', name: 'created_at',
                 },
 
                 {
@@ -67,7 +71,7 @@
             ],
             @component('mycomponents.callbackDatatablejs')
                 @slot('primarykey')
-                store_id
+                berita_id
             @endslot
             @endcomponent
 
@@ -81,12 +85,12 @@
 
     function loadindatatable() {
         exporTable();
-        let urlData = '{{url('main/stores/update-status/')}}';
+        let urlData = '{{url('main/berita/update-status/')}}';
         initChangeStatus(urlData);
     }
 
     function bulkStatus(mode, teks) {
-        var url = '{{ url('main/stores/bulkStatus') }}';
+        var url = '{{ url('main/berita/bulkStatus') }}';
         bulkActive(mode, url, teks);
     }
 </script>

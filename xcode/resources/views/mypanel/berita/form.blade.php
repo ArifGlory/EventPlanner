@@ -1,6 +1,6 @@
 @extends('mylayouts.layout_panel')
 <?php
-$modenya = $mode == 'add' ? 'tambah store' : 'ubah store';
+$modenya = $mode == 'add' ? 'tambah event' : 'ubah event';
 $titlePage = $modenya;
 ?>
 @section('title', ucwords($titlePage))
@@ -19,7 +19,7 @@ $titlePage = $modenya;
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="{{url('main/stores')}}">List</a></li>
+                        <li class="breadcrumb-item"><a href="{{url('main/event')}}">List</a></li>
                         <li class="breadcrumb-item active">{{ucwords($titlePage)}}</li>
                     </ol>
                 </div>
@@ -56,10 +56,11 @@ $titlePage = $modenya;
                                                             <div class="user-picture-section mb-3">
                                                                 <div class=" d-flex align-items-center flex-column">
                                                                     <a class="image-popup-no-margins"
-                                                                       href="{{getImageOri($store_logo)}}">
+                                                                       href="{{getImageOri($event_poster)}}">
                                                                         <img
                                                                             class="img-fluid rounded my-4 img-preview_gambar"
-                                                                            src="{{getImageOri($store_logo)}}" height="110"
+                                                                            src="{{getImageOri($event_poster)}}"
+                                                                            height="110"
                                                                             width="110"
                                                                             alt="User picture">
                                                                     </a>
@@ -67,34 +68,24 @@ $titlePage = $modenya;
                                                             </div>
                                                         </div>
                                                     @endif
-                                                    @if(cekRoleAkses('superadmin') || cekRoleAkses('admin'))
-                                                            <div class="col-lg-12">
-                                                                <div class="mb-3">
-                                                                    <label class="form-label" for="store_pemilik">Pemilik Toko/UMKM</label>
-                                                                    <br>
-                                                                    <small>Pemilik Toko harus terdaftar dahulu di sistem</small>
-                                                                    <select style="width:100%"
-                                                                            class="form-control  @error('store_pemilik') is-invalid @enderror"
-                                                                            name="store_pemilik" required id="store_pemilik">
-                                                                    </select>
-                                                                    @error('store_pemilik')
-                                                                    <div class="invalid-feedback">
-                                                                        {{ $message }}
-                                                                    </div>
-                                                                    @enderror
-                                                                </div>
-                                                            </div>
-                                                    @endif
                                                     <div class="col-lg-12">
                                                         <div class="mb-3">
-                                                            <label class="form-label" for="mm_nama">Nama
-                                                                Toko/UMKM</label>
-                                                            <input
-                                                                class="form-control @error('store_name') is-invalid @enderror"
-                                                                name="store_name" id="store_name" type="text"
-                                                                value="{{ $store_name }}"
-                                                                autofocus/>
-                                                            @error('store_name')
+                                                            <label class="form-label" for="event_category_id">Kategori
+                                                                Event </label>
+                                                            <select style="width:100%"
+                                                                    class="select2 form-control  @error('event_category_id') is-invalid @enderror"
+                                                                    name="event_category_id" id="event_category_id">
+                                                                @if($mode == "edit")
+                                                                    <option value="{{$selected_category->category_id}}">
+                                                                        Terpilih
+                                                                        - {{$selected_category->category_name}}</option>
+                                                                @endif
+                                                                @foreach($category as $val)
+                                                                    <option
+                                                                        value="{{$val->category_id}}"> {{$val->category_name}} </option>
+                                                                @endforeach
+                                                            </select>
+                                                            @error('event_category_id')
                                                             <div class="invalid-feedback">
                                                                 {{ $message }}
                                                             </div>
@@ -103,14 +94,13 @@ $titlePage = $modenya;
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <div class="mb-3">
-                                                            <label class="form-label" for="kode_pejantan"> Tags </label>
-                                                            <br>
-                                                            <small>Setiap kata dipisahkan dengan tanda koma</small>
+                                                            <label class="form-label" for="mm_nama">Nama Event</label>
                                                             <input
-                                                                class="form-control @error('store_tags') is-invalid @enderror"
-                                                                name="store_tags" id="store_tags" type="text"
-                                                                value="{{ $store_tags }}"/>
-                                                            @error('store_tags')
+                                                                class="form-control @error('event_name') is-invalid @enderror"
+                                                                name="event_name" id="event_name" type="text"
+                                                                value="{{ $event_name }}"
+                                                                autofocus/>
+                                                            @error('event_name')
                                                             <div class="invalid-feedback">
                                                                 {{ $message }}
                                                             </div>
@@ -119,13 +109,15 @@ $titlePage = $modenya;
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="mb-3">
-                                                            <label class="form-label"> No. Telepon <small>Serbaiknya yang dapat dihubungi lewat whatsapp</small> </label>
+                                                            <label class="form-label"> Harga Tiket <small>harga sebelum
+                                                                    diskon</small> </label>
 
                                                             <input
-                                                                class="form-control @error('store_phone') is-invalid @enderror"
-                                                                name="store_phone" id="store_phone" type="text"
-                                                                value="{{ $store_phone }}"/>
-                                                            @error('store_phone')
+                                                                class="form-control @error('event_harga_tiket') is-invalid @enderror"
+                                                                name="event_harga_tiket" id="event_harga_tiket"
+                                                                type="number"
+                                                                value="{{ $event_harga_tiket }}"/>
+                                                            @error('event_harga_tiket')
                                                             <div class="invalid-feedback">
                                                                 {{ $message }}
                                                             </div>
@@ -134,12 +126,33 @@ $titlePage = $modenya;
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="mb-3">
-                                                            <label class="form-label"> URL Web Toko </label>
+                                                            <label class="form-label"> Stok tiket <small>anda dapat
+                                                                    membatasi jumlah tiket dengan batasan
+                                                                    tertenu</small> </label>
+
                                                             <input
-                                                                class="form-control @error('store_url') is-invalid @enderror"
-                                                                name="store_url" id="store_url" type="text"
-                                                                value="{{ $store_url }}"/>
-                                                            @error('store_url')
+                                                                class="form-control @error('event_stok_tiket') is-invalid @enderror"
+                                                                name="event_stok_tiket" id="event_stok_tiket"
+                                                                type="number"
+                                                                value="{{ $event_stok_tiket }}"/>
+                                                            @error('event_stok_tiket')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="product_url">Waktu
+                                                                Event</label>
+                                                            <input
+                                                                class="form-control @error('event_waktu') is-invalid @enderror"
+                                                                name="event_waktu" id="product_url"
+                                                                type="datetime-local"
+                                                                value="{{ $event_waktu }}"
+                                                                autofocus/>
+                                                            @error('product_url')
                                                             <div class="invalid-feedback">
                                                                 {{ $message }}
                                                             </div>
@@ -150,16 +163,45 @@ $titlePage = $modenya;
                                                         <div class="mb-3">
                                                             <label class="form-label" for="bobot">Deskripsi</label>
                                                             <textarea
-                                                                class="form-control @error('store_description') is-invalid @enderror"
+                                                                class="form-control @error('event_description') is-invalid @enderror"
                                                                 id="exampleFormControlTextarea1" rows="3"
-                                                                name="store_description">{{$store_description}}</textarea>
-                                                            @error('store_description')
+                                                                name="event_description">{{$event_description}}</textarea>
+                                                            @error('event_description')
                                                             <div class="invalid-feedback">
                                                                 {{ $message }}
                                                             </div>
                                                             @enderror
                                                         </div>
                                                     </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="bobot">Lokasi event</label>
+                                                            <textarea
+                                                                class="form-control @error('event_lokasi') is-invalid @enderror"
+                                                                id="exampleFormControlTextarea1" rows="3"
+                                                                name="event_lokasi">{{$event_lokasi}}</textarea>
+                                                            @error('event_lokasi')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="mb-3">
+                                                                <label class="form-label" for="bobot">Talent</label>
+                                                                <small>Artis atau yang memeriahkan acara event</small>
+                                                                <textarea
+                                                                    class="form-control @error('event_talent') is-invalid @enderror"
+                                                                    id="exampleFormControlTextarea1" rows="3"
+                                                                    name="event_talent">{{$event_talent}}</textarea>
+                                                                @error('event_talent')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -170,43 +212,31 @@ $titlePage = $modenya;
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-lg-12">
-
                                                         <div class="mb-3">
-                                                            <label class="form-label" for="status">Jenis
-                                                                Toko/UMKM</label>
-                                                            <select style="width:100%"
-                                                                    class="select2 form-control  @error('store_type') is-invalid @enderror"
-                                                                    name="store_type" id="jenis_id">
-                                                                <option value="online"> Online</option>
-                                                                <option value="offline"> Offline</option>
-                                                            </select>
-                                                            @error('store_type')
-                                                            <div class="invalid-feedback">
-                                                                {{ $message }}
-                                                            </div>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label" for="is_active">Gambar Toko</label>
+                                                            <label class="form-label" for="is_active">Poster
+                                                                Event</label>
+                                                            <br>
+                                                            <small>Di isi jika ingin mengubah gambar poster
+                                                                event</small>
                                                             <div class="custom-file">
-                                                                <input id="store_logo"
-                                                                       class="custom-file-input @error('store_logo') is-invalid @enderror"
-                                                                       type="file" name="store_logo"
+                                                                <input id="product_image"
+                                                                       class="custom-file-input @error('event_poster') is-invalid @enderror"
+                                                                       type="file" name="event_poster"
                                                                        accept="image/*"
-                                                                       onchange="previewImg('store_logo')">
+                                                                       onchange="previewImg('event_poster')">
                                                                 <label class="custom-file-label"
-                                                                       for="store_logo">PILIH</label>
+                                                                       for="event_poster">PILIH</label>
                                                             </div>
 
 
                                                             @if($mode=='edit')
-                                                                @if($store_logo)
+                                                                @if($event_poster)
                                                                     @component('mycomponents.checkboxValue')
                                                                         @slot('variabel')
                                                                             gambar
                                                                         @endslot
                                                                         @slot('value')
-                                                                            {{$store_logo}}
+                                                                            {{$event_poster}}
                                                                         @endslot
                                                                         @slot('teks')
                                                                             hapus gambar lama
@@ -233,8 +263,11 @@ $titlePage = $modenya;
                                                     @endif
                                                     @component('mycomponents.btnsubmit')
                                                         @slot('variabel')
-                                                            @if($mode=='add') Simpan  @else
-                                                                Update @endif
+                                                            @if($mode=='add')
+                                                                Simpan
+                                                            @else
+                                                                Update
+                                                            @endif
                                                         @endslot
                                                     @endcomponent
                                                 </div>
@@ -252,58 +285,8 @@ $titlePage = $modenya;
 @endsection
 @push('scripts')
     <script type="text/javascript">
-        @if($mode=='edit')
-            var selectedPemilik = new Option('{{$pemilik->name}}', '{{$pemilik->id}}', true, true);
-            $("#store_pemilik").append(selectedPemilik).trigger('change');
-        @endif
-
-        function remoteMember() {
-            $("#store_pemilik").select2({
-                placeholder: 'Cari nama pemilik dimulai dengan 3 karakter',
-                //minimumInputLength: 3,
-                ajax: {
-                    url: "{{url('main/member')}}",
-                    type: "get",
-                    dataType: 'json',
-                    delay: 250,
-                    data: function (params) {
-                        return {
-                            search: params.term, // search term,
-                        };
-                    },
-                    processResults: function (data) {
-                        return {
-                            results: $.map(data, function (item) {
-                                return {
-                                    text: `${item.name} - ${item.email}`,
-                                    id: `${item.id}`
-                                }
-                            })
-                        };
-                    },
-                    cache: true
-                },
-                // dropdownParent: "#modal_form",
-                templateResult: formatRepo,
-                templateSelection: formatRepoSelection
-
-            });
-        }
-
-        function formatRepo(repo) {
-            if (repo.loading) {
-                return repo.text;
-            }
-            return repo.text;
-        }
-
-        function formatRepoSelection(repo) {
-            return repo.text;
-        }
-
         $(document).ready(function () {
-            //changeTextFile('gambar');
-            remoteMember();
+            changeTextFile('event_poster');
         });
     </script>
 

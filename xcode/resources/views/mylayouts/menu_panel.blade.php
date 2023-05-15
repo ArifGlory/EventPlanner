@@ -34,7 +34,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{url('main/product')}}" class="nav-link {{ activeMenu('main/product') }}">
+                        <a href="{{url('main/berita')}}" class="nav-link {{ activeMenu('main/berita') }}">
                             <i class="nav-icon fas fa-file-contract"></i>
                             <p>
                                 Berita

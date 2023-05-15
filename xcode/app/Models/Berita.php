@@ -10,7 +10,7 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 
-class LogSaldoPoint extends Model
+class Berita extends Model
 {
 
     use LogsActivity;
@@ -18,9 +18,8 @@ class LogSaldoPoint extends Model
     use SoftDeletes;
 
 
-    const TABLE = 'log_saldo_point';
-    const PRIMARYKEY = 'log_saldo_id';
-    const FIELDSTATUS = 'log_saldo_status';
+    const TABLE = 'berita';
+    const PRIMARYKEY = 'berita_id';
     protected $table = self::TABLE;
     protected $primaryKey = self::PRIMARYKEY;
     /**
@@ -30,26 +29,22 @@ class LogSaldoPoint extends Model
      */
 
     protected $guarded = [
-        'log_saldo_id',
+        'berita_id',
     ];
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->useLogName('log_saldo_point')
-            ->logOnly(['log_saldo_nominal', 'log_saldo_status','log_saldo_description'])
+            ->useLogName('berita')
+            ->logOnly(['berita_title', 'berita_id'])
             ->logOnlyDirty(true)
             ->dontLogIfAttributesChangedOnly(['created_at', 'updated_at'])
             ->setDescriptionForEvent
-            (fn(string $eventName) => "log saldo {$eventName}"
+            (fn(string $eventName) => "berita {$eventName}"
             )
             ->dontSubmitEmptyLogs();
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id', 'id')->select('name', 'email', 'id','wallet_address');
-    }
 
 
 

@@ -1,6 +1,6 @@
 @extends('mylayouts.layout_panel')
 <?php
-$titlePage = 'Product';
+$titlePage = 'Berita';
 ?>
 @section('title', ucwords($titlePage))
 @push('css')
@@ -30,7 +30,7 @@ $titlePage = 'Product';
 
                         @component('mycomponents.btnAdd')
                             @slot('link')
-                                {{url('main/product/form')}}
+                                {{url('main/berita/form')}}
                             @endslot
                         @endcomponent
 
@@ -58,8 +58,8 @@ $titlePage = 'Product';
                                         <select style="width:100%"
                                                 class="select2 form-control"
                                                 name="select_jenis_id" id="select_jenis_id" multiple>
-                                            @foreach($subcategory as $val)
-                                                <option value="{{$val->subcategory_id}}"> {{$val->subcategory_name}} </option>
+                                            @foreach($category as $val)
+                                                <option value="{{$val->category_id}}"> {{$val->category_name}} </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -85,9 +85,9 @@ $titlePage = 'Product';
                                         @component('mycomponents.checkAll')@endcomponent
                                     </th>
                                     <th style="width: 5px">No.</th>
-                                    <th style="width: 100px">Nama</th>
-                                    <th style="width: 50px">Harga Awal</th>
-                                    <th style="width: 50px">Harga Diskon</th>
+                                    <th style="width: 100px">Judul</th>
+                                    <th style="width: 50px">Kategori</th>
+                                    <th style="width: 50px">Dibuat pada</th>
                                     <th style="width: 75px" class="not-export-col">
                                         Action
                                     </th>
@@ -124,5 +124,5 @@ $titlePage = 'Product';
     <script src="{{ asset('assets/jshideyorix/mydatatable.js')}}"></script>
     <script src="{{ asset('assets/jshideyorix/deletertable.js')}}"></script>
     <script src="{{ asset('assets/jshideyorix/activatortable.js')}}"></script>
-    @include('mypanel.product.script')
+    @include('mypanel.berita.script')
 @endpush

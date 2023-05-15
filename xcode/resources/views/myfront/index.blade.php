@@ -39,7 +39,7 @@
                 <div class="col-lg-12">
                     <h3 class="display-4 mb-2 text-left">Event terbaru</h3>
                     <p class="lead fs-lg mb-6 pe-xxl-5">Yuk lihat event terbaru yang sedang trending</p>
-                    <a href="{{url('/voucher')}}" class="btn btn-soft-primary rounded-pill">Lihat Semua</a>
+                    <a href="{{url('/event')}}" class="btn btn-soft-primary rounded-pill">Lihat Semua</a>
                 </div>
                 <div class="col-lg-8">
                     <div class="swiper-container blog grid-view mb-6" data-margin="30" data-dots="true"
@@ -94,7 +94,7 @@
                 <div class="col-lg-12 mb-3">
                     <h2 class="display-4 mb-3">Penyelenggara event</h2>
                     <p class="lead fs-lg mb-6 pe-xxl-5">Data pembuat event di Bandar Lampung</p>
-                    <a href="{{url('/voucher')}}" class="btn btn-soft-primary rounded-pill">Lihat Semua</a>
+                    <a href="{{url('/planner')}}" class="btn btn-soft-primary rounded-pill">Lihat Semua</a>
                 </div>
                 <!-- /column -->
                 <div class="col-lg-8">

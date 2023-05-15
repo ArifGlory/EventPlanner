@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Role\Store;
+use App\Models\Berita;
 use App\Models\BibitMani;
+use App\Models\Category;
 use App\Models\ChildDetailKategori;
 use App\Models\DetailKategori;
 use App\Models\DetailStrawmani;
+use App\Models\Event;
 use App\Models\JenisSapi;
 use App\Models\MaterialMaster;
 use App\Models\Penyedia;
@@ -23,7 +26,7 @@ use Illuminate\Support\Facades\Auth;
 use function GuzzleHttp\Promise\all;
 
 
-class ProductController  extends Controller
+class BeritaController  extends Controller
 {
 
     private $myService;
@@ -32,15 +35,15 @@ class ProductController  extends Controller
     {
         $this->middleware(['storeaccess']);
         $this->myService = new hideyoriService();
-        $this->context = 'product';
+        $this->context = 'event';
     }
 
     public function index()
     {
-        $view = 'mypanel.product.index';
-        $subcategory = SubCategory::all();
+        $view = 'mypanel.berita.index';
+        $category = Category::all();
         $data = [
-            'subcategory' => $subcategory,
+            'category' => $category,
         ];
 
         return view($view, $data);
@@ -49,11 +52,12 @@ class ProductController  extends Controller
     public function data(Request $request)
     {
         if (cekRoleAkses('store')){
-            $data = Product::leftjoin('store', 'store.store_id', '=', 'product.store_id')
-                ->where('store.store_pemilik',Auth::user()->id)
+            $data = Berita::select('berita.*','category.category_name')
+                ->leftjoin('category', 'category.category_id', '=', 'berita.berita_category_id')
+                ->where('berita.created_by',Auth::user()->id)
                 ->get();
         }else if (cekRoleAkses('superadmin') || cekRoleAkses('admin')){
-            $data = Product::get();
+            $data = Berita::get();
         }
 
         /*$created_by = $request->get('created_by');
@@ -70,25 +74,18 @@ class ProductController  extends Controller
                 return '';
             })
             ->addColumn('checkbox', function ($row) {
-               /* $izin = '<i class="fas fa-ellipsis-h"></i>';
-               if ( cekRoleAkses('superadmin') == true || cekRoleAkses('admin') == true ) {
-                    $izin = checkboxRowDT($row->product_id);
-                }*/
-                $izin = checkboxRowDT($row->product_id);
+                $izin = checkboxRowDT($row->berita_id);
                 return $izin;
             })
-            ->editColumn('product_price', function ($row) {
-                return $row->product_price ? format_angka_indo($row->product_price) : '';
-            })
-            ->editColumn('product_old_price', function ($row) {
-                return $row->product_old_price ? format_angka_indo($row->product_old_price) : '';
+            ->editColumn('created_at', function ($row) {
+                return $row->created_at ? TanggalIndowaktu($row->created_at) : '';
             })
             ->addColumn('action', function ($row) {
                 $izin = '';
-                $aksiDetail = detailButtonDT($row->product_id, 'main/product/detail');
+                $aksiDetail = detailButtonDT($row->berita_id, 'main/berita/detail');
                 $izin .= $aksiDetail;
-                $aksiEdit = editButtonDT($row->product_id, 'main/product/edit');
-                $aksiHapus = deleteButtonDT($row->product_id, 'deleteDataTable','product/delete');
+                $aksiEdit = editButtonDT($row->berita_id, 'main/berita/edit');
+                $aksiHapus = deleteButtonDT($row->berita_id, 'deleteDataTable','berita/delete');
 
                 $izin .= $aksiEdit;
                 $izin .= $aksiHapus;
@@ -108,35 +105,20 @@ class ProductController  extends Controller
 
     public function form()
     {
-        if (cekRoleAkses('store')){
-            $stores = Stores::where('store_pemilik',Auth::user()->id)
-                ->get();
-        }else{
-            $stores = Stores::all();
-        }
 
         $data = [
-            'subcategory' => SubCategory::all(),
-            'stores' => $stores,
+            'category' => Category::all(),
             'mode' => 'add',
-            'action' => url('main/product/create'),
+            'action' => url('main/berita/create'),
             'id' => '',
-            'store_id' => old('store_id', ''),
-            'subcategory_id' => old('subcategory_id', ''),
-            'product_name' => old('product_name', ''),
-            'product_price' => old('product_price', ''),
-            'product_old_price' => old('product_old_price', ''),
-            'product_currency' => old('product_currency', ''),
-            'product_description' => old('product_description', ''),
-            'product_url' => old('product_url', ''),
-            'product_tags' => old('product_tags', ''),
-            'product_image' => old('product_image', ''),
-            'product_discount_start_date' => old('product_discount_start_date', ''),
-            'product_discount_end_date' => old('product_discount_end_date', ''),
-            'product_status' => old('product_status', ''),
+            'berita_title' => old('berita_title', ''),
+            'berita_category_id' => old('berita_category_id', ''),
+            'berita_content' => old('berita_content', ''),
+            'berita_tag' => old('berita_tag', ''),
+            'berita_image' => old('berita_image', ''),
 
         ];
-        $view = 'mypanel.product.form';
+        $view = 'mypanel.berita.form';
         return view($view, $data);
     }
 
@@ -144,30 +126,26 @@ class ProductController  extends Controller
     {
 
         $rule = [
-            'subcategory_id' => 'required',
-            'store_id' => 'required',
-            'product_name' => 'required',
-            'product_tags' => 'required',
-            'product_old_price' => 'required',
-            'product_price' => 'required',
-            'product_description' => 'required',
-            'product_url' => 'required',
-            'product_discount_start_date' => 'required',
-            'product_discount_end_date' => 'required',
-            'product_image' => 'required|mimes:jpeg,png,jpg|max:2048',
+            'berita_category_id' => 'required',
+            'berita_name' => 'required',
+            'berita_waktu' => 'required',
+            'berita_talent' => 'required',
+            'berita_lokasi' => 'required',
+            'berita_harga_tiket' => 'required',
+            'berita_stok_tiket' => 'required',
+            'berita_description' => 'required',
+            'berita_poster' => 'required|mimes:jpeg,png,jpg|max:2048',
         ];
         $attributeRule = [
-            'subcategory_id' => 'Kategori produk',
-            'store_id' => 'Toko pemilik',
-            'product_name' => 'nama produk',
-            'product_tags' => 'Tag produk',
-            'product_old_price' => 'harga awal produk',
-            'product_price' => 'harga diskon produk',
-            'product_description' => 'deskripsi produk',
-            'product_url' => 'link url produk',
-            'product_discount_start_date' => 'waktu mulai diskon',
-            'product_discount_end_date' => 'waktu akhir diskon',
-            'product_image' => 'foto produk',
+            'berita_category_id' => 'Kategori event',
+            'berita_name' => 'nama event',
+            'berita_waktu' => 'waktu event',
+            'berita_lokasi' => 'lokasi event',
+            'berita_harga_tiket' => 'harga tiket event',
+            'berita_stok_tiket' => 'stok tiket event',
+            'berita_description' => 'deskripsi event',
+            'berita_talent' => 'talent event',
+            'berita_poster' => 'foto event',
         ];
         $this->validate($request,
             $rule,
@@ -178,51 +156,37 @@ class ProductController  extends Controller
         $requestData = $request->all();
         $requestData['created_by'] = Auth::user()->id;
 
-        if ($request->hasFile('product_image')) {
-            $requestData['product_image'] = StoreFileWithFolder($request->file('product_image'), 'public', 'produk');
+        if ($request->hasFile('berita_poster')) {
+            $requestData['berita_poster'] = StoreFileWithFolder($request->file('berita_poster'), 'public', 'event');
         }
 
 
-        return storeData(Product::class, $requestData, $this->context, true, 'main/product');
+        return storeData(Event::class, $requestData, $this->context, true, 'main/berita');
     }
 
     public function edit($id)
     {
-        $master = $this->myService->find(Product::class, decodeId($id));
-        $selected_stores = Stores::find($master->store_id);
-        $selected_subcategory = SubCategory::find($master->subcategory_id);
-
-        if (cekRoleAkses('store')){
-            $stores = Stores::where('store_pemilik',Auth::user()->id)
-                ->get();
-        }else{
-            $stores = Stores::all();
-        }
+        $master = $this->myService->find(Event::class, decodeId($id));
+        $selected_category = Category::find($master->berita_category_id);
 
         $data =
             [
                 'mode' => 'edit',
-                'subcategory' => SubCategory::all(),
-                'stores' => $stores,
-                'selected_stores' => $selected_stores,
-                'selected_subcategory' => $selected_subcategory,
-                'action' => url('main/product/update/' . $id),
+                'category' => Category::all(),
+                'selected_category' => $selected_category,
+                'action' => url('main/berita/update/' . $id),
                 'id' => $id,
-                'store_id' => old('store_id', $master->store_id),
-                'subcategory_id' => old('subcategory_id', $master->subcategory_id),
-                'product_name' => old('product_name', $master->product_name),
-                'product_price' => old('product_price', $master->product_price),
-                'product_old_price' => old('product_old_price', $master->product_old_price),
-                'product_currency' => old('product_currency', $master->product_currency),
-                'product_description' => old('product_description', $master->product_description),
-                'product_url' => old('product_url', $master->product_url),
-                'product_tags' => old('product_tags', $master->product_tags),
-                'product_image' => old('product_image', $master->product_image),
-                'product_discount_start_date' => old('product_discount_start_date', $master->product_discount_start_date),
-                'product_discount_end_date' => old('product_discount_end_date', $master->product_discount_end_date),
-                'product_status' => old('product_status', $master->product_status),
+                'berita_category_id' => old('subcategory_id', $master->berita_category_id),
+                'berita_name' => old('berita_name', $master->berita_name),
+                'berita_waktu' => old('berita_waktu', $master->berita_waktu),
+                'berita_talent' => old('berita_talent', $master->berita_talent),
+                'berita_lokasi' => old('berita_lokasi', $master->berita_lokasi),
+                'berita_harga_tiket' => old('berita_harga_tiket', $master->berita_harga_tiket),
+                'berita_stok_tiket' => old('berita_stok_tiket', $master->berita_stok_tiket),
+                'berita_poster' => old('berita_poster', $master->berita_poster),
+                'berita_description' => old('berita_description', $master->berita_description),
             ];
-        $view = 'mypanel.product.form';
+        $view = 'mypanel.berita.form';
 
         return view($view, $data);
     }
@@ -276,7 +240,7 @@ class ProductController  extends Controller
         }
         $requestData['product_image'] = $gambar;
 
-        return updateData($master, $requestData, $this->context, true, 'main/product');
+        return updateData($master, $requestData, $this->context, true, 'main/berita');
     }
 
     public function updateStatus(Request $request)
@@ -305,7 +269,7 @@ class ProductController  extends Controller
                 'store' => $store,
                 'subcategory' => $subcategory,
             ];
-        $view = 'mypanel.product.show';
+        $view = 'mypanel.berita.show';
         return view($view, $data);
     }
 

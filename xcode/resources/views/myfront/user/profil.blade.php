@@ -79,7 +79,7 @@
                                             @if(cekRoleAkses('store'))
                                                 <tr>
                                                     <td style="width: fit-content;">Event</td>
-                                                    <td class="text-center"> &emsp; <strong> 0 </strong> </td>
+                                                    <td class="text-center"> &emsp; <strong> {{$count_event}} </strong> </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: fit-content;">Berita</td>

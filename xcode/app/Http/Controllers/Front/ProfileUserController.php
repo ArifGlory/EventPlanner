@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\BibitMani;
+use App\Models\Event;
 use App\Models\HargaKomoditas;
 use App\Models\KomoditasTernak;
 use App\Models\MaterialMaster;
@@ -35,9 +36,11 @@ class ProfileUserController extends Controller
     public function index()
     {
         $view = 'myfront.user.profil';
+        $count_event = Event::where('created_by',Auth::user()->id)
+            ->count();
 
         $data = [
-
+            'count_event' => $count_event
         ];
 
         return view($view, $data);

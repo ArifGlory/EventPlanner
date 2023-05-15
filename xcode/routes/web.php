@@ -1,25 +1,17 @@
 <?php
 
 
-use App\Http\Controllers\Back\StoreController;
 use App\Http\Controllers\Back\CategoryController;
-use App\Http\Controllers\Back\SubCategoryController;
-use App\Http\Controllers\Back\ProductController;
 use App\Http\Controllers\Back\EventController;
-use App\Http\Controllers\Back\VoucherController;
-use App\Http\Controllers\Back\MissionController;
-use App\Http\Controllers\Back\RewardController;
+use App\Http\Controllers\Back\BeritaController;
 use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\LogController;
-use App\Http\Controllers\Back\LogSaldoPointController;
 use App\Http\Controllers\Back\ProfileController;
 use App\Http\Controllers\Back\SettingController;
 use App\Http\Controllers\Back\UserController;
 use App\Http\Controllers\Front\HomeController;
-use App\Http\Controllers\Front\MissionUserController;
 use App\Http\Controllers\Front\EventUserController;
 use App\Http\Controllers\Front\ProfileUserController;
-use App\Http\Controllers\Front\Web3LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -92,13 +84,6 @@ Route::group(['prefix' => 'main', 'middleware' => ['web', 'auth']], function () 
             Route::post('bulkDelete', [LogController::class, 'bulkDelete']);
         });
 
-        Route::group(['prefix' => 'transaksi-point'], function () {
-            Route::get('/', [LogSaldoPointController::class, 'index']);
-            Route::get('data', [LogSaldoPointController::class, 'data']);
-            Route::get('form', [LogSaldoPointController::class, 'form']);
-            Route::post('create', [LogSaldoPointController::class, 'store']);
-            Route::get('detail/{id}', [LogSaldoPointController::class, 'show']);
-        });
 
         Route::group(['prefix' => 'pengguna'], function () {
             Route::get('/', [UserController::class, 'index'])->name('user');
@@ -121,18 +106,6 @@ Route::group(['prefix' => 'main', 'middleware' => ['web', 'auth']], function () 
             }
         });
 
-        Route::group(['prefix' => 'stores'], function () {
-            Route::get('/', [StoreController::class, 'index']);
-            Route::get('data', [StoreController::class, 'data']);
-            Route::get('form', [StoreController::class, 'form']);
-            Route::post('create', [StoreController::class, 'store']);
-            Route::put('update/{id}', [StoreController::class, 'update']);
-            Route::get('edit/{id}', [StoreController::class, 'edit']);
-            Route::delete('delete/{id}', [StoreController::class, 'destroy']);
-            Route::get('detail/{id}', [StoreController::class, 'show']);
-            Route::get('update-status', [StoreController::class, 'updateStatus']);
-            Route::post('bulkStatus', [StoreController::class, 'bulkStatus']);
-        });
 
         Route::group(['prefix' => 'category'], function () {
             Route::get('/', [CategoryController::class, 'index']);
@@ -147,31 +120,6 @@ Route::group(['prefix' => 'main', 'middleware' => ['web', 'auth']], function () 
             Route::post('bulkStatus', [CategoryController::class, 'bulkStatus']);
         });
 
-        Route::group(['prefix' => 'subcategory'], function () {
-            Route::get('/', [SubCategoryController::class, 'index']);
-            Route::get('data', [SubCategoryController::class, 'data']);
-            Route::get('form', [SubCategoryController::class, 'form']);
-            Route::post('create', [SubCategoryController::class, 'store']);
-            Route::put('update/{id}', [SubCategoryController::class, 'update']);
-            Route::get('edit/{id}', [SubCategoryController::class, 'edit']);
-            Route::delete('delete/{id}', [SubCategoryController::class, 'destroy']);
-            Route::get('detail/{id}', [SubCategoryController::class, 'show']);
-            Route::get('update-status', [SubCategoryController::class, 'updateStatus']);
-            Route::post('bulkStatus', [SubCategoryController::class, 'bulkStatus']);
-        });
-
-        Route::group(['prefix' => 'product'], function () {
-            Route::get('/', [ProductController::class, 'index']);
-            Route::get('data', [ProductController::class, 'data']);
-            Route::get('form', [ProductController::class, 'form']);
-            Route::post('create', [ProductController::class, 'store']);
-            Route::put('update/{id}', [ProductController::class, 'update']);
-            Route::get('edit/{id}', [ProductController::class, 'edit']);
-            Route::delete('delete/{id}', [ProductController::class, 'destroy']);
-            Route::get('detail/{id}', [ProductController::class, 'show']);
-            Route::get('update-status', [ProductController::class, 'updateStatus']);
-            Route::post('bulkStatus', [ProductController::class, 'bulkStatus']);
-        });
 
         Route::group(['prefix' => 'event'], function () {
             Route::get('/', [EventController::class, 'index']);
@@ -186,36 +134,19 @@ Route::group(['prefix' => 'main', 'middleware' => ['web', 'auth']], function () 
             Route::post('bulkStatus', [EventController::class, 'bulkStatus']);
         });
 
-
-        Route::group(['prefix' => 'voucher'], function () {
-            Route::get('/', [VoucherController::class, 'index']);
-            Route::get('data', [VoucherController::class, 'data']);
-            Route::get('form', [VoucherController::class, 'form']);
-            Route::post('create', [VoucherController::class, 'store']);
-            Route::put('update/{id}', [VoucherController::class, 'update']);
-            Route::get('edit/{id}', [VoucherController::class, 'edit']);
-            Route::delete('delete/{id}', [VoucherController::class, 'destroy']);
-            Route::get('detail/{id}', [VoucherController::class, 'show']);
-            Route::get('update-status', [VoucherController::class, 'updateStatus']);
-            Route::post('bulkStatus', [VoucherController::class, 'bulkStatus']);
+        Route::group(['prefix' => 'berita'], function () {
+            Route::get('/', [BeritaController::class, 'index']);
+            Route::get('data', [BeritaController::class, 'data']);
+            Route::get('form', [BeritaController::class, 'form']);
+            Route::post('create', [BeritaController::class, 'store']);
+            Route::put('update/{id}', [BeritaController::class, 'update']);
+            Route::get('edit/{id}', [BeritaController::class, 'edit']);
+            Route::delete('delete/{id}', [BeritaController::class, 'destroy']);
+            Route::get('detail/{id}', [BeritaController::class, 'show']);
+            Route::get('update-status', [BeritaController::class, 'updateStatus']);
+            Route::post('bulkStatus', [BeritaController::class, 'bulkStatus']);
         });
 
-        Route::group(['prefix' => 'mission'], function () {
-            Route::get('/', [MissionController::class, 'index']);
-            Route::get('data', [MissionController::class, 'data']);
-            Route::get('data-submission', [MissionController::class, 'dataSubmission']);
-            Route::get('form', [MissionController::class, 'form']);
-            Route::post('create', [MissionController::class, 'store']);
-            Route::put('update/{id}', [MissionController::class, 'update']);
-            Route::get('edit/{id}', [MissionController::class, 'edit']);
-            Route::delete('delete/{id}', [MissionController::class, 'destroy']);
-            Route::get('detail/{id}', [MissionController::class, 'show']);
-            Route::get('update-status', [MissionController::class, 'updateStatus']);
-            Route::post('bulkStatus', [MissionController::class, 'bulkStatus']);
-            Route::get('submission/accept/{id}', [MissionController::class, 'acceptSubmission']);
-            Route::get('submission/decline/{id}', [MissionController::class, 'declineSubmission']);
-            Route::post('submission/decline/store', [MissionController::class, 'storeDeclineSubmission']);
-        });
 
         Route::get('profil', [ProfileController::class, 'profil']);
         Route::get('side-profil', [ProfileController::class, 'sideProfil']);
@@ -228,19 +159,6 @@ Route::group(['prefix' => 'main', 'middleware' => ['web', 'auth']], function () 
         Route::get('data-log-saya/{id}', [ProfileController::class, 'logsDataSaya']);
         Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
             \UniSharp\LaravelFilemanager\Lfm::routes();
-        });
-
-        Route::group(['prefix' => 'reward'], function () {
-            Route::get('/', [RewardController::class, 'index']);
-            Route::get('data', [RewardController::class, 'data']);
-            Route::get('form', [RewardController::class, 'form']);
-            Route::post('create', [RewardController::class, 'store']);
-            Route::put('update/{id}', [RewardController::class, 'update']);
-            Route::get('edit/{id}', [RewardController::class, 'edit']);
-            Route::delete('delete/{id}', [RewardController::class, 'destroy']);
-            Route::get('detail/{id}', [RewardController::class, 'show']);
-            Route::get('update-status', [RewardController::class, 'updateStatus']);
-            Route::post('bulkStatus', [RewardController::class, 'bulkStatus']);
         });
 
 
