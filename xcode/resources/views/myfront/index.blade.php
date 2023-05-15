@@ -91,7 +91,7 @@
     <section class="wrapper bg-soft-primary" id="bibitmani">
         <div class="container py-14 py-md-16">
             <div class="row gx-lg-8 gx-xl-12 gy-10 gy-lg-0">
-                <div class="col-lg-4 mt-lg-2">
+                <div class="col-lg-12 mb-3">
                     <h2 class="display-4 mb-3">Penyelenggara event</h2>
                     <p class="lead fs-lg mb-6 pe-xxl-5">Data pembuat event di Bandar Lampung</p>
                     <a href="{{url('/voucher')}}" class="btn btn-soft-primary rounded-pill">Lihat Semua</a>
@@ -102,18 +102,18 @@
                          data-items-md="2" data-items-xs="1">
                         <div class="swiper">
                             <div class="swiper-wrapper">
-                                {{--@foreach($new_voucher as $val)
+                                @foreach($new_planner as $val)
                                     <div class="swiper-slide">
                                     <article>
-                                        <figure class="overlay overlay-1 hover-scale rounded mb-5"><a href="{{url('/detail-voucher/'.encodeId($val->voucher_id))}}"> <img
-                                                    src="{{ getImageOri($val->voucher_image)  }}" alt=""/></a>
+                                        <figure class="overlay overlay-1 hover-scale rounded mb-5"><a href="{{url('/planner/detail/'.encodeId($val->id))}}"> <img
+                                                    src="{{ getImageOri($val->foto)  }}" alt=""/></a>
                                             <figcaption>
                                                 <h5 class="from-top mb-0">Selengkapnya</h5>
                                             </figcaption>
                                         </figure>
                                         <div class="post-header">
                                             <h2 class="post-title h3 mt-1 mb-3"><a class="link-dark"
-                                                                                   href="{{url('/detail-voucher/'.encodeId($val->voucher_id))}}"> {{$val->voucher_name}}  </a>
+                                                                                   href="{{url('/planner/detail/'.encodeId($val->id))}}"> {{$val->name}}  </a>
                                             </h2>
                                         </div>
                                         <!-- /.post-header -->
@@ -121,7 +121,7 @@
                                             <ul class="post-meta mb-0">
                                                 <li class="post-comments"><a href="#"><i
                                                             class="uil uil-comment"></i>
-                                                        {{ \Illuminate\Support\Str::limit($val->voucher_description, 100, $end='...') }}
+                                                        {{ \Illuminate\Support\Str::limit($val->store_description, 100, $end='...') }}
                                                     </a>
                                                 </li>
                                             </ul>
@@ -131,7 +131,7 @@
                                     </article>
                                     <!-- /article -->
                                 </div>
-                                @endforeach--}}
+                                @endforeach
                             </div>
                             <!--/.swiper-wrapper -->
                         </div>

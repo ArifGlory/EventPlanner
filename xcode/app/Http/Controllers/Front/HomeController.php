@@ -40,15 +40,15 @@ class HomeController extends Controller
             ->orderBy('event.created_at',"DESC")
             ->limit(5)
             ->get();
+        $new_planner = User::leftjoin('user_has_role', 'user_has_role.user_id', '=', 'users.id')
+            ->where('user_has_role.role_id',3)
+            ->limit(5)
+            ->get();
 
 
         $data = [
             'new_events' => $new_events,
-            /*'new_voucher' => Voucher::leftjoin('store', 'store.store_id', '=', 'voucher.store_id')
-                ->where('voucher.voucher_end_date','>=',$now)
-                ->orderBy('voucher_id',"DESC")
-                ->limit(5)
-                ->get(),*/
+            'new_planner' => $new_planner,
         ];
 
         return view($view, $data);
