@@ -127,25 +127,15 @@ class BeritaController  extends Controller
 
         $rule = [
             'berita_category_id' => 'required',
-            'berita_name' => 'required',
-            'berita_waktu' => 'required',
-            'berita_talent' => 'required',
-            'berita_lokasi' => 'required',
-            'berita_harga_tiket' => 'required',
-            'berita_stok_tiket' => 'required',
-            'berita_description' => 'required',
-            'berita_poster' => 'required|mimes:jpeg,png,jpg|max:2048',
+            'berita_title' => 'required',
+            'berita_content' => 'required',
+            'berita_image' => 'required|mimes:jpeg,png,jpg|max:2048',
         ];
         $attributeRule = [
             'berita_category_id' => 'Kategori event',
-            'berita_name' => 'nama event',
-            'berita_waktu' => 'waktu event',
-            'berita_lokasi' => 'lokasi event',
-            'berita_harga_tiket' => 'harga tiket event',
-            'berita_stok_tiket' => 'stok tiket event',
-            'berita_description' => 'deskripsi event',
-            'berita_talent' => 'talent event',
-            'berita_poster' => 'foto event',
+            'berita_title' => 'nama event',
+            'berita_content' => 'deskripsi event',
+            'berita_image' => 'foto event',
         ];
         $this->validate($request,
             $rule,
@@ -156,17 +146,17 @@ class BeritaController  extends Controller
         $requestData = $request->all();
         $requestData['created_by'] = Auth::user()->id;
 
-        if ($request->hasFile('berita_poster')) {
-            $requestData['berita_poster'] = StoreFileWithFolder($request->file('berita_poster'), 'public', 'event');
+        if ($request->hasFile('berita_image')) {
+            $requestData['berita_image'] = StoreFileWithFolder($request->file('berita_image'), 'public', 'berita');
         }
 
 
-        return storeData(Event::class, $requestData, $this->context, true, 'main/berita');
+        return storeData(Berita::class, $requestData, $this->context, true, 'main/berita');
     }
 
     public function edit($id)
     {
-        $master = $this->myService->find(Event::class, decodeId($id));
+        $master = $this->myService->find(Berita::class, decodeId($id));
         $selected_category = Category::find($master->berita_category_id);
 
         $data =
@@ -176,15 +166,10 @@ class BeritaController  extends Controller
                 'selected_category' => $selected_category,
                 'action' => url('main/berita/update/' . $id),
                 'id' => $id,
-                'berita_category_id' => old('subcategory_id', $master->berita_category_id),
-                'berita_name' => old('berita_name', $master->berita_name),
-                'berita_waktu' => old('berita_waktu', $master->berita_waktu),
-                'berita_talent' => old('berita_talent', $master->berita_talent),
-                'berita_lokasi' => old('berita_lokasi', $master->berita_lokasi),
-                'berita_harga_tiket' => old('berita_harga_tiket', $master->berita_harga_tiket),
-                'berita_stok_tiket' => old('berita_stok_tiket', $master->berita_stok_tiket),
-                'berita_poster' => old('berita_poster', $master->berita_poster),
-                'berita_description' => old('berita_description', $master->berita_description),
+                'berita_category_id' => old('berita_category_id', $master->berita_category_id),
+                'berita_title' => old('berita_title', $master->berita_title),
+                'berita_image' => old('berita_image', $master->berita_image),
+                'berita_content' => old('berita_content', $master->berita_content),
             ];
         $view = 'mypanel.berita.form';
 
@@ -193,32 +178,18 @@ class BeritaController  extends Controller
 
     public function update(Request $request, $id)
     {
-        $master = $this->myService->find(Product::class, decodeId($id));
+        $master = $this->myService->find(Berita::class, decodeId($id));
 
         $rule = [
-            'subcategory_id' => 'required',
-            'store_id' => 'required',
-            'product_name' => 'required',
-            'product_tags' => 'required',
-            'product_old_price' => 'required',
-            'product_price' => 'required',
-            'product_description' => 'required',
-            'product_url' => 'required',
-            'product_discount_start_date' => 'required',
-            'product_discount_end_date' => 'required',
+            'berita_category_id' => 'required',
+            'berita_title' => 'required',
+            'berita_content' => 'required',
             //'product_image' => 'required|mimes:jpeg,png,jpg|max:2048',
         ];
         $attributeRule = [
-            'subcategory_id' => 'Kategori produk',
-            'store_id' => 'Toko pemilik',
-            'product_name' => 'nama produk',
-            'product_tags' => 'Tag produk',
-            'product_old_price' => 'harga awal produk',
-            'product_price' => 'harga diskon produk',
-            'product_description' => 'deskripsi produk',
-            'product_url' => 'link url produk',
-            'product_discount_start_date' => 'waktu mulai diskon',
-            'product_discount_end_date' => 'waktu akhir diskon',
+            'berita_category_id' => 'Kategori berita',
+            'berita_title' => 'judul berita',
+            'berita_content' => 'konten berita',
             //'product_image' => 'foto produk',
         ];
         $this->validate($request,
@@ -229,16 +200,16 @@ class BeritaController  extends Controller
 
         $requestData = $request->all();
 
-        $gambar = $master->product_image;
-        if ($request->hasFile('product_image')) {
-            $gambar = StoreFileWithFolder($request->file('product_image'), 'public', 'produk', ['replace' => $master->product_image]);
+        $gambar = $master->berita_image;
+        if ($request->hasFile('berita_image')) {
+            $gambar = StoreFileWithFolder($request->file('berita_image'), 'public', 'berita', ['replace' => $master->berita_image]);
         } else {
             if (isset($request->remove_gambar)) {
-                removeFileFolder('public', $master->product_image);
+                removeFileFolder('public', $master->berita_image);
                 $gambar = null;
             }
         }
-        $requestData['product_image'] = $gambar;
+        $requestData['berita_image'] = $gambar;
 
         return updateData($master, $requestData, $this->context, true, 'main/berita');
     }
@@ -258,23 +229,20 @@ class BeritaController  extends Controller
 
     public function show($id)
     {
-        $master = $this->myService->find(Product::class, decodeId($id));
-        $store = Stores::find($master->store_id);
-        $subcategory = SubCategory::find($master->subcategory_id);
-        $tags = explode(",",$master->product_tags);
+        $master = $this->myService->find(Berita::class, decodeId($id));
+        $category = Category::find($master->berita_category_id);
+        //$tags = explode(",",$master->product_tags);
         $data =
             [
                 'row' => $master,
-                'tags' => $tags,
-                'store' => $store,
-                'subcategory' => $subcategory,
+                'category' => $category,
             ];
         $view = 'mypanel.berita.show';
         return view($view, $data);
     }
 
     public function destroy($id){
-        $info = Product::find(decodeId($id));
+        $info = Berita::find(decodeId($id));
 
         $delete = $info->destroy(decodeId($id));
         if($delete) {

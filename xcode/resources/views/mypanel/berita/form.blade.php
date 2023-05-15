@@ -96,7 +96,7 @@ $titlePage = $modenya;
                                                             <label class="form-label" for="mm_nama">Judul Berita</label>
                                                             <input
                                                                 class="form-control @error('berita_title') is-invalid @enderror"
-                                                                name="event_name" id="event_name" type="text"
+                                                                name="berita_title" id="berita_title" type="text"
                                                                 value="{{ $berita_title }}"
                                                                 autofocus/>
                                                             @error('berita_title')
@@ -141,18 +141,18 @@ $titlePage = $modenya;
                                                                        accept="image/*"
                                                                        onchange="previewImg('berita_image')">
                                                                 <label class="custom-file-label"
-                                                                       for="event_poster">PILIH</label>
+                                                                       for="berita_image">PILIH</label>
                                                             </div>
 
 
                                                             @if($mode=='edit')
-                                                                @if($event_poster)
+                                                                @if($berita_image)
                                                                     @component('mycomponents.checkboxValue')
                                                                         @slot('variabel')
                                                                             gambar
                                                                         @endslot
                                                                         @slot('value')
-                                                                            {{$event_poster}}
+                                                                            {{$berita_image}}
                                                                         @endslot
                                                                         @slot('teks')
                                                                             hapus gambar lama
