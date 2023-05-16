@@ -122,6 +122,8 @@ class EventController  extends Controller
             'event_poster' => old('event_poster', ''),
             'event_discount' => old('event_discount', ''),
             'event_description' => old('event_description', ''),
+            'event_latitude' => -5.441073410393852,
+            'event_longitude' => 105.25861960614812,
 
         ];
         $view = 'mypanel.event.form';
