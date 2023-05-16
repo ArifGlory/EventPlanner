@@ -41,9 +41,11 @@ class EventUserController extends Controller
         if ($request->input('search')){
             $keyword = $request->input('search');
             $event = Event::where('event_name','LIKE','%'.$keyword.'%')
+                ->orderBy('event.created_at',"DESC")
                 ->paginate(10);
         }else{
             $event = Event::where('event_waktu','>=',$now)
+                ->orderBy('event.created_at',"DESC")
                 ->paginate(10);
         }
 

@@ -42,6 +42,7 @@ class HomeController extends Controller
             ->get();
         $new_planner = User::leftjoin('user_has_role', 'user_has_role.user_id', '=', 'users.id')
             ->where('user_has_role.role_id',3)
+            ->orderBy('users.created_at',"DESC")
             ->limit(5)
             ->get();
 

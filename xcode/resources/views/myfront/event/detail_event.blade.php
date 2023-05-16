@@ -37,6 +37,11 @@
                                     <ul class="post-meta d-flex mb-0">
                                         <li class="post-date"> <strong> Diselenggarakan pada <span>{{ rubah_tanggal_indo($event->event_waktu)  }}</span> </strong> </li>
                                         <li class="post-date"> <strong> Pukul <span>{{ $event_time  }}</span> </strong> </li>
+                                        <li class="post-date">
+                                            <a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{$event->event_latitude}},{{$event->event_longitude}}">
+                                                <strong> Lokasi di <span>{{ $event->event_lokasi  }}</span> </strong>
+                                            </a>
+                                        </li>
                                     </ul>
                                     <!-- /.post-meta -->
                                 </div>

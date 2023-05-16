@@ -41,15 +41,15 @@
                     <p class="lead fs-lg mb-6 pe-xxl-5">Yuk lihat event terbaru yang sedang trending</p>
                     <a href="{{url('/event')}}" class="btn btn-soft-primary rounded-pill">Lihat Semua</a>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-10">
                     <div class="swiper-container blog grid-view mb-6" data-margin="30" data-dots="true"
-                         data-items-md="2" data-items-xs="1">
+                         data-items-md="3" data-items-xs="1">
                         <div class="swiper">
                             <div class="swiper-wrapper">
                                 @foreach($new_events as $val)
                                     <div class="swiper-slide">
                                     <article>
-                                        <figure style="height: 250px;" class="overlay overlay-1 hover-scale rounded mb-5"><a href="#">
+                                        <figure style="height: 250px;" class="overlay overlay-1 hover-scale rounded mb-5"><a href="{{url('/event/detail/'.encodeId($val->event_id))}}">
                                                 <img src="{{ getImageOri($val->event_poster)  }}" alt=""/></a>
                                             <figcaption>
                                                 <h5 class="from-top mb-0">Selengkapnya</h5>
@@ -57,7 +57,7 @@
                                         </figure>
                                         <div class="post-header">
                                             <h2 class="post-title h3 mt-1 mb-3"><a class="link-dark"
-                                                                                   href="#"> {{$val->event_name}}  </a>
+                                                                                   href="{{url('/event/detail/'.encodeId($val->event_id))}}"> {{$val->event_name}}  </a>
                                             </h2>
                                         </div>
                                         <!-- /.post-header -->
@@ -98,9 +98,9 @@
                     <a href="{{url('/planner')}}" class="btn btn-soft-primary rounded-pill">Lihat Semua</a>
                 </div>
                 <!-- /column -->
-                <div class="col-lg-8">
+                <div class="col-lg-10">
                     <div class="swiper-container blog grid-view mb-6" data-margin="30" data-dots="true"
-                         data-items-md="2" data-items-xs="1">
+                         data-items-md="3" data-items-xs="1">
                         <div class="swiper">
                             <div class="swiper-wrapper">
                                 @foreach($new_planner as $val)
