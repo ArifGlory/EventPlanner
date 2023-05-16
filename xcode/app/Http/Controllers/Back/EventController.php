@@ -176,6 +176,13 @@ class EventController  extends Controller
     {
         $master = $this->myService->find(Event::class, decodeId($id));
         $selected_category = Category::find($master->event_category_id);
+        if ($master->event_latitude){
+            $lat = $master->event_latitude;
+            $lon = $master->event_longitude;
+        }else{
+            $lat = -5.441073410393852;
+            $lon = 105.25861960614812;
+        }
 
         $data =
             [
@@ -193,6 +200,8 @@ class EventController  extends Controller
                 'event_stok_tiket' => old('event_stok_tiket', $master->event_stok_tiket),
                 'event_poster' => old('event_poster', $master->event_poster),
                 'event_description' => old('event_description', $master->event_description),
+                'event_latitude' => old('event_latitude', $lat),
+                'event_longitude' => old('event_longitude', $lon),
             ];
         $view = 'mypanel.event.form';
 

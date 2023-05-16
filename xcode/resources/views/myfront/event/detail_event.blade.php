@@ -38,9 +38,15 @@
                                         <li class="post-date"> <strong> Diselenggarakan pada <span>{{ rubah_tanggal_indo($event->event_waktu)  }}</span> </strong> </li>
                                         <li class="post-date"> <strong> Pukul <span>{{ $event_time  }}</span> </strong> </li>
                                         <li class="post-date">
-                                            <a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{$event->event_latitude}},{{$event->event_longitude}}">
-                                                <strong> Lokasi di <span>{{ $event->event_lokasi  }}</span> </strong>
-                                            </a>
+                                            @if($event->event_latitude)
+                                                <a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{$event->event_latitude}},{{$event->event_longitude}}">
+                                                    <strong> Lokasi di <span>{{ $event->event_lokasi  }}</span> </strong>
+                                                </a>
+                                            @else
+                                                <a href="#">
+                                                    <strong> Lokasi di <span>{{ $event->event_lokasi  }}</span> </strong>
+                                                </a>
+                                            @endif
                                         </li>
                                     </ul>
                                     <!-- /.post-meta -->
