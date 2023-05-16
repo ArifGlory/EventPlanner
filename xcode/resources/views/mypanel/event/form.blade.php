@@ -357,22 +357,6 @@ $titlePage = $modenya;
             })]
         }).addTo(mymap);
 
-        // buat variabel berisi fugnsi L.popup
-        var popup = L.popup();
-
-        var searchControl = L.esri.Geocoding.geosearch({
-            position: 'topright',
-            placeholder: 'Cari Lokasi',
-            useMapBounds: false,
-            providers: [L.esri.Geocoding.arcgisOnlineProvider({
-                apikey: 'AAPK2e97da1510ea44cda7d15d90f4c5a6012SBpdH2i6kuElOVl6wuvVOqTOCqfRItUfj52KH0xKMXKgISf3ZvMeyzcKHd1B0z-', // replace with your api key - https://developers.arcgis.com
-                nearby: {
-                    lat: -5.441073410393852,
-                    lng: 105.25861960614812
-                }
-            })]
-        }).addTo(mymap);
-
         var results = L.layerGroup().addTo(mymap);
         // create markers
         var marker = L.marker([lok_lat, lok_lng], {
