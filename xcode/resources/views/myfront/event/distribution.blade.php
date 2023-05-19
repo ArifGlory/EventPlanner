@@ -21,7 +21,7 @@
             <div class="row gx-lg-8 gx-xl-12 gy-10 mb-5 align-items-center">
                 <div class="col-md-10 offset-md-1 offset-lg-0 col-lg-5 text-center text-lg-start order-2 order-lg-0"
                      data-cues="slideInDown" data-group="page-title" data-delay="600">
-                    <h1 class="display-1 mb-5 mx-md-n5 mx-lg-0">Persebarang Event</h1>
+                    <h1 class="display-1 mb-5 mx-md-n5 mx-lg-0">Persebaran Event</h1>
                     <p class="lead fs-lg mb-7">Persebaran event yang ada di Bandar Lampung</p>
                 </div>
                 <!-- /column -->
