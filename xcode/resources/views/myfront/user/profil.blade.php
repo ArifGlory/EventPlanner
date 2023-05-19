@@ -83,7 +83,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="width: fit-content;">Berita</td>
-                                                    <td class="text-center"> &emsp; <strong> 0 </strong> </td>
+                                                    <td class="text-center"> &emsp; <strong> {{$count_berita}} </strong> </td>
                                                 </tr>
                                             @else
                                                 <tr>

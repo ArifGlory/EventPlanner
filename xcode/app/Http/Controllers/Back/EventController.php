@@ -86,7 +86,7 @@ class EventController  extends Controller
                 $aksiDetail = detailButtonDT($row->product_id, 'main/event/detail');
                 $izin .= $aksiDetail;
                 $aksiEdit = editButtonDT($row->event_id, 'main/event/edit');
-                $aksiHapus = deleteButtonDT($row->event_id, 'deleteDataTable','product/delete');
+                $aksiHapus = deleteButtonDT($row->event_id, 'deleteDataTable','event/delete');
 
                 $izin .= $aksiEdit;
                 $izin .= $aksiHapus;
@@ -210,33 +210,33 @@ class EventController  extends Controller
 
     public function update(Request $request, $id)
     {
-        $master = $this->myService->find(Product::class, decodeId($id));
+        $master = $this->myService->find(Event::class, decodeId($id));
 
         $rule = [
-            'subcategory_id' => 'required',
-            'store_id' => 'required',
-            'product_name' => 'required',
-            'product_tags' => 'required',
-            'product_old_price' => 'required',
-            'product_price' => 'required',
-            'product_description' => 'required',
-            'product_url' => 'required',
-            'product_discount_start_date' => 'required',
-            'product_discount_end_date' => 'required',
-            //'product_image' => 'required|mimes:jpeg,png,jpg|max:2048',
+            'event_category_id' => 'required',
+            'event_name' => 'required',
+            'event_waktu' => 'required',
+            'event_talent' => 'required',
+            'event_lokasi' => 'required',
+            'event_harga_tiket' => 'required',
+            'event_stok_tiket' => 'required',
+            'event_description' => 'required',
+            'event_latitude' => 'required',
+            'event_longitude' => 'required',
+            //'event_poster' => 'required|mimes:jpeg,png,jpg|max:2048',
         ];
         $attributeRule = [
-            'subcategory_id' => 'Kategori produk',
-            'store_id' => 'Toko pemilik',
-            'product_name' => 'nama produk',
-            'product_tags' => 'Tag produk',
-            'product_old_price' => 'harga awal produk',
-            'product_price' => 'harga diskon produk',
-            'product_description' => 'deskripsi produk',
-            'product_url' => 'link url produk',
-            'product_discount_start_date' => 'waktu mulai diskon',
-            'product_discount_end_date' => 'waktu akhir diskon',
-            //'product_image' => 'foto produk',
+            'event_category_id' => 'Kategori event',
+            'event_name' => 'nama event',
+            'event_waktu' => 'waktu event',
+            'event_talent' => 'talent event',
+            'event_lokasi' => 'nama lokasi event',
+            'event_harga_tiket' => 'harga tiket',
+            'event_stok_tiket' => 'stok tiket',
+            'event_description' => 'deskripsi tiket',
+            'event_latitude' => 'latitdue',
+            'event_longitude' => 'longitude',
+            //'event_poster' => 'foto event',
         ];
         $this->validate($request,
             $rule,
@@ -246,16 +246,16 @@ class EventController  extends Controller
 
         $requestData = $request->all();
 
-        $gambar = $master->product_image;
-        if ($request->hasFile('product_image')) {
-            $gambar = StoreFileWithFolder($request->file('product_image'), 'public', 'produk', ['replace' => $master->product_image]);
+        $gambar = $master->event_poster;
+        if ($request->hasFile('event_poster')) {
+            $gambar = StoreFileWithFolder($request->file('event_poster'), 'public', 'event', ['replace' => $master->event_poster]);
         } else {
             if (isset($request->remove_gambar)) {
-                removeFileFolder('public', $master->product_image);
+                removeFileFolder('public', $master->event_poster);
                 $gambar = null;
             }
         }
-        $requestData['product_image'] = $gambar;
+        $requestData['event_poster'] = $gambar;
 
         return updateData($master, $requestData, $this->context, true, 'main/event');
     }
@@ -291,7 +291,7 @@ class EventController  extends Controller
     }
 
     public function destroy($id){
-        $info = Product::find(decodeId($id));
+        $info = Event::find(decodeId($id));
 
         $delete = $info->destroy(decodeId($id));
         if($delete) {

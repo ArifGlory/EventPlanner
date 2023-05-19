@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Berita;
 use App\Models\BibitMani;
 use App\Models\Event;
 use App\Models\HargaKomoditas;
@@ -38,9 +39,12 @@ class ProfileUserController extends Controller
         $view = 'myfront.user.profil';
         $count_event = Event::where('created_by',Auth::user()->id)
             ->count();
+        $count_berita = Berita::where('created_by',Auth::user()->id)
+            ->count();
 
         $data = [
-            'count_event' => $count_event
+            'count_event' => $count_event,
+            'count_berita' => $count_berita,
         ];
 
         return view($view, $data);
