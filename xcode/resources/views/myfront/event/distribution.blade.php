@@ -66,7 +66,19 @@
                     <div class="card">
                         <div class="card-body">
                             <h5>Informasi Event</h5>
-                            <a href="#" class="btn btn-soft-primary rounded-pill">Lihat Info Detail</a>
+                            <br>
+                            <h6 id="text-info-detail">Silahkan klik pada salah satu marker di peta, maka informasinya akan muncul disini</h6>
+                            <div id="section-event-detail" class="mt-2">
+                                <label>Nama</label>
+                                <h5 id="nama-event">Nama e</h5>
+                                <label>Lokasi Event</label>
+                                <h5 id="lokasi-event">Lokasi event</h5>
+                                <label>Harga Tiket</label>
+                                <h5 id="harga-event">harga event</h5>
+                                <br>
+                                <br>
+                                <a href="#" id="btn-detail" class="btn btn-soft-primary rounded-pill">Lihat Info Detail</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -94,8 +106,9 @@
         let lok_lat = {{$event_latitude}};
         let lok_lng = {{$event_longitude}};
         let data_event = @json($event);
+        $("#section-event-detail").hide();
 
-        var mymap = L.map('mapgue').setView([lok_lat, lok_lng], 13);
+        var mymap = L.map('mapgue').setView([lok_lat, lok_lng], 11);
         //setting maps menggunakan api mapbox bukan google maps, daftar dan dapatkan token
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -130,22 +143,29 @@
             var marker = L.marker([lat, lon], {
                 draggable: false ,
                 clickable : true,
-                title : event_name
+                title : event_name,
+                name : i
             }).addTo(results).bindPopup(event_name+'<br>'+event_lokasi)
-                .openPopup();
+                .on('click', markerOnClick);
         }
 
-        marker.on('click', function (e) {
-
-            console.log("data marker  : "+e);
-            //var latdrag = (e.target._latlng.lat);
-            //var lngdrag = (e.target._latlng.lng);
-            // popup
-            //     .setLatLng(e.target._latlng)
-            //     .setContent("koordinatnya adalah " + e.target._latlng
-            //         .toString()
-            //     )
-            //     .openOn(mymap);
+        const formatter = new Intl.NumberFormat('de-DE', {
+            currency: 'IDR',
         });
+
+        function markerOnClick(e)
+        {
+            let event_id = this.options.name;
+            let harga = formatter.format(data_event[event_id]['event_harga_tiket']);
+
+            $("#text-info-detail").hide();
+            $("#nama-event").text(data_event[event_id]['event_name']);
+            $("#lokasi-event").text(data_event[event_id]['event_lokasi']);
+            $("#harga-event").text("Rp. "+harga);
+            $("#btn-detail").attr("href", data_event[event_id]['url_detail'])
+            $("#section-event-detail").show();
+        }
+
+
     </script>
 @endpush
