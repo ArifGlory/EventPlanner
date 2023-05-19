@@ -41,7 +41,7 @@
                                 <a class="nav-link" href="{{url('/berita')}}">Berita</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{url('/')}}">Peta Event</a>
+                                <a class="nav-link" href="{{url('/event/distribution')}}">Peta Event</a>
                             </li>
 
                         </ul>

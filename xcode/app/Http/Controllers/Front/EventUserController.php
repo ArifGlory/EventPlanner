@@ -84,6 +84,31 @@ class EventUserController extends Controller
         dd("buying tickets..");
     }
 
+    public function eventDistribution(Request $request){
+        $view = 'myfront.event.distribution';
+        $now = date('Y-m-d');
+
+        $event = Event::where('event_waktu','>=',$now)
+            ->orderBy('event.created_at',"DESC")
+            ->limit(50)
+            ->get();
+        for($i = 0;$i < count($event); $i++){
+           // print_r($event[$i]['event_name']);
+            //print_r("<br>");
+            $lokasi['lat'] = $event[$i]['event_latitude'];
+            $lokasi['lon'] = $event[$i]['event_longitude'];
+        }
+
+        $data = [
+            'event' => $event,
+            'event_latitude' => -5.441073410393852,
+            'event_longitude' => 105.25861960614812,
+        ];
+
+        return view($view, $data);
+
+    }
+
 
 
 }
