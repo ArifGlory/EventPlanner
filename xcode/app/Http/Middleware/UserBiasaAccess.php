@@ -18,10 +18,10 @@ class UserBiasaAccess
     public function handle(Request $request, Closure $next)
     {
         if (Auth::check()) {
-            if (cekRoleAkses('user') == true){
+            if (cekRoleAkses('user')){
                 return $next($request);
             }else{
-                $msgerror = 'anda tidak bisa mengakses fungsi ini, fungsi ini hanya untuk pengguna mission hunter di Xpoint ' . $request->fullUrl();
+                $msgerror = 'anda tidak bisa mengakses fungsi ini, fungsi ini hanya untuk pengguna SIVP ' . $request->fullUrl();
                 return res500(\request()->ajax(), $msgerror);
             }
         }else{

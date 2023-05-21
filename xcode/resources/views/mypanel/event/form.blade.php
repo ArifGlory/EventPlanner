@@ -187,6 +187,39 @@ $titlePage = $modenya;
                                                             @enderror
                                                         </div>
                                                     </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="mm_nama">No. Rekening
+                                                                Event</label>
+                                                            <small>Pembayaran untuk event akan dikirimkan ke rekening ini</small>
+                                                            <input
+                                                                class="form-control @error('event_rekening') is-invalid @enderror"
+                                                                name="event_rekening" id="event_rekening" type="text"
+                                                                value="{{ $event_rekening }}"
+                                                                autofocus/>
+                                                            @error('event_rekening')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="event_bank_rekening">Nama Bank</label>
+                                                            <br>
+                                                            <input
+                                                                class="form-control @error('event_bank_rekening') is-invalid @enderror"
+                                                                name="event_bank_rekening" id="event_bank_rekening" type="text"
+                                                                value="{{ $event_bank_rekening }}"
+                                                                autofocus/>
+                                                            @error('event_bank_rekening')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
                                                     <div class="col-lg-12">
                                                         <div class="mb-3">
                                                             <label class="form-label" for="product_url">Waktu

@@ -81,7 +81,16 @@ class EventUserController extends Controller
     }
 
     public function buyTicket($id){
-        dd("buying tickets..");
+        $view = 'myfront.event.buy_ticket_confirmation';
+
+
+        $event = Event::find(decodeId($id));
+
+        $data = [
+            'event' => $event,
+        ];
+
+        return view($view, $data);
     }
 
     public function eventDistribution(Request $request){

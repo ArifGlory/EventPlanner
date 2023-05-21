@@ -122,6 +122,8 @@ class EventController  extends Controller
             'event_poster' => old('event_poster', ''),
             'event_discount' => old('event_discount', ''),
             'event_description' => old('event_description', ''),
+            'event_rekening' => old('event_rekening', ''),
+            'event_bank_rekening' => old('event_bank_rekening', ''),
             'event_latitude' => -5.441073410393852,
             'event_longitude' => 105.25861960614812,
 
@@ -142,6 +144,8 @@ class EventController  extends Controller
             'event_harga_tiket' => 'required',
             'event_stok_tiket' => 'required',
             'event_description' => 'required',
+            'event_rekening' => 'required',
+            'event_bank_rekening' => 'required',
             'event_poster' => 'required|mimes:jpeg,png,jpg|max:2048',
         ];
         $attributeRule = [
@@ -152,6 +156,8 @@ class EventController  extends Controller
             'event_harga_tiket' => 'harga tiket event',
             'event_stok_tiket' => 'stok tiket event',
             'event_description' => 'deskripsi event',
+            'event_bank_rekening' => 'nama bank',
+            'event_rekening' => 'no. rekening bank',
             'event_talent' => 'talent event',
             'event_poster' => 'foto event',
         ];
@@ -200,6 +206,8 @@ class EventController  extends Controller
                 'event_stok_tiket' => old('event_stok_tiket', $master->event_stok_tiket),
                 'event_poster' => old('event_poster', $master->event_poster),
                 'event_description' => old('event_description', $master->event_description),
+                'event_rekening' => old('event_rekening', $master->event_rekening),
+                'event_bank_rekening' => old('event_bank_rekening', $master->event_bank_rekening),
                 'event_latitude' => old('event_latitude', $lat),
                 'event_longitude' => old('event_longitude', $lon),
             ];
@@ -223,6 +231,8 @@ class EventController  extends Controller
             'event_description' => 'required',
             'event_latitude' => 'required',
             'event_longitude' => 'required',
+            'event_rekening' => 'required',
+            'event_bank_rekening' => 'required',
             //'event_poster' => 'required|mimes:jpeg,png,jpg|max:2048',
         ];
         $attributeRule = [
@@ -236,6 +246,8 @@ class EventController  extends Controller
             'event_description' => 'deskripsi tiket',
             'event_latitude' => 'latitdue',
             'event_longitude' => 'longitude',
+            'event_rekening' => 'longitude',
+            'event_bank_rekening' => 'longitude',
             //'event_poster' => 'foto event',
         ];
         $this->validate($request,
