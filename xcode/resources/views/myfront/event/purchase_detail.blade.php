@@ -34,7 +34,7 @@
                                                     <span class="badge rounded-pill bg-danger text-white"> Pembayaran Ditolak </span>
                                                 @endif
                                                 <div class="mt-3 mb-3"></div>
-                                                @if($transaksi->status != 1)
+                                                @if($transaksi->bukti_bayar == null)
                                                     <br>
                                                     <h6>Upload Bukti Pembayaran</h6>
                                                     <form action="{{ url('/purchase/upload/payment')  }}" method="post" enctype="multipart/form-data">
@@ -44,9 +44,11 @@
                                                             <input name="bukti_bayar" type="file" class="form-control w-100">
                                                         </div>
                                                         <div class="pull-right mt-2">
-                                                            <button type="submit" class="btn btn-primary rounded w-100">Simpan</button>
+                                                            <button type="submit" class="btn btn-primary rounded w-100">Kirim</button>
                                                         </div>
                                                     </form>
+                                                @else
+                                                    <span class="badge rounded-pill bg-primary text-white"> Bukti bayar telah dikirim </span>
                                                 @endif
                                             </div>
                                         </div>

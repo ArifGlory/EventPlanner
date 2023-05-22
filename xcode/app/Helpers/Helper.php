@@ -1196,7 +1196,7 @@ if (!function_exists('storeDataNoReturn')) {
     }
 }
 if (!function_exists('updateData')) {
-    function updateData($master, $requestData, $context = null, $return = true, $redirect = null)
+    function updateData($master, $requestData, $context = null, $return = true, $redirect = null, $msg = null)
     {
         try {
             $myService = new hideyoriService();
@@ -1207,7 +1207,11 @@ if (!function_exists('updateData')) {
         }
 
         if ($return == true) {
-            $msgsuccess = 'berhasil perbarui ' . $context;
+            if ($msg == null){
+                $msgsuccess = 'berhasil perbarui ' . $context;
+            }else{
+                $msgsuccess = $msg;
+            }
             return res200(\request()->ajax(), $msgsuccess, $redirect);
         } else {
             return $update;

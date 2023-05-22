@@ -143,7 +143,16 @@ class EventUserController extends Controller
     }
 
     public function uploadPaymentProve(Request $request){
+        $transaksi_id = $request->input('transaksi_event_id');
+        $master = $this->myService->find(TransaksiEvent::class, decodeId($transaksi_id));
 
+        $gambar = "";
+        if ($request->hasFile('bukti_bayar')) {
+            $gambar = StoreFileWithFolder($request->file('bukti_bayar'), 'public', 'bukti');
+        }
+        $requestData['bukti_bayar'] = $gambar;
+
+        return updateData($master, $requestData, $this->context, true, '/purchase/detail/'.$transaksi_id,"berhasil upload bukti bayar");
     }
 
     public function eventDistribution(Request $request){
