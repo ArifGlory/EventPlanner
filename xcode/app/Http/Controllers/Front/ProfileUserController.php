@@ -46,6 +46,7 @@ class ProfileUserController extends Controller
             ->count();
         $new_tiket_owned = TransaksiEvent::leftjoin('event', 'event.event_id', '=', 'transaksi_event.event_id')
             ->where('transaksi_event.user_id',Auth::user()->id)
+            ->orderBy('transaksi_event.created_at',"DESC")
             ->get();
 
         $data = [
