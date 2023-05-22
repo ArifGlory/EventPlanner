@@ -116,6 +116,7 @@ class EventUserController extends Controller
         $event = Event::find(decodeId($id));
         $total_bayar = $jumlah * $event->event_harga_tiket;
 
+
         $data = array(
             'user_id' => Auth::user()->id,
             'event_id' => $event->event_id,
@@ -124,6 +125,25 @@ class EventUserController extends Controller
         );
 
         return storeData(TransaksiEvent::class, $data, $this->context, true, '/user');
+    }
+
+    public function purchaseDetail($id){
+        $transaksi = TransaksiEvent::find(decodeId($id));
+        $event = Event::find($transaksi->event_id);
+        $view = 'myfront.event.purchase_detail';
+        $event_time = substr($event->event_waktu,11,5);
+
+        $data = array(
+            'transaksi' => $transaksi,
+            'event' => $event,
+            'event_time' => $event_time
+        );
+
+        return view($view, $data);
+    }
+
+    public function uploadPaymentProve(Request $request){
+
     }
 
     public function eventDistribution(Request $request){

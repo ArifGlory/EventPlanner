@@ -1,11 +1,11 @@
 @extends('mylayouts.layout_front_sb')
-@section('title', "Konfirmasi pembelian tiket")
+@section('title', "Detail pembelian tiket")
 @push('css')
 @endpush
 @section('content')
     <section class="wrapper bg-soft-primary" id="pelakuusaha">
         <div class="container py-14 py-md-16">
-            <h2> Konfirmasi Pembelian Tiket {{$event->event_name}} </h2>
+            <h2> Pembelian Tiket {{$event->event_name}} </h2>
             <div class="row gx-lg-8 gx-xl-12 mt-5">
                 <div class="col-lg-8">
                     <div class="blog classic-view">
@@ -22,20 +22,32 @@
                                             </div>
                                             <div class="col-md-8">
                                                 <h6>{{$event->event_name}}</h6>
-                                                <p> <strong>{{$jumlah}} </strong> buah tiket
+                                                <p> <strong>{{$transaksi->jumlah}} </strong> buah tiket
                                                 <br>
-                                                    Total Pembayaran <strong>Rp. {{format_angka_indo($total_bayar)}}</strong>
+                                                    Total Pembayaran <strong>Rp. {{format_angka_indo($transaksi->total_bayar)}}</strong>
                                                 </p>
-                                                <form action="{{ url('/event/buy/store')  }}" method="post" enctype="multipart/form-data">
-                                                    @csrf
-                                                    <div class="col-md-5">
-                                                        <input type="hidden" name="id" value="{{encodeId($event->event_id)}}">
-                                                        <input type="hidden" name="jumlah" value="{{$jumlah}}">
-                                                    </div>
-                                                    <div class="pull-right">
-                                                        <button type="submit" class="btn btn-primary rounded w-100">Lanjutkan Pembelian</button>
-                                                    </div>
-                                                </form>
+                                                @if($transaksi->status == 0)
+                                                    <span class="badge rounded-pill bg-warning text-dark">Menunggu Konfirmasi Pembayaran</span>
+                                                @elseif($transaksi->status == 1)
+                                                    <span class="badge rounded-pill bg-success text-white"> Pembayaran Diverifikasi </span>
+                                                @elseif($transaksi->status == 2)
+                                                    <span class="badge rounded-pill bg-danger text-white"> Pembayaran Ditolak </span>
+                                                @endif
+                                                <div class="mt-3 mb-3"></div>
+                                                @if($transaksi->status != 1)
+                                                    <br>
+                                                    <h6>Upload Bukti Pembayaran</h6>
+                                                    <form action="{{ url('/purchase/upload/payment')  }}" method="post" enctype="multipart/form-data">
+                                                        @csrf
+                                                        <div class="col-md-5">
+                                                            <input type="hidden" name="transaksi_event_id" value="{{encodeId($transaksi->transaksi_event_id)}}">
+                                                            <input name="bukti_bayar" type="file" class="form-control w-100">
+                                                        </div>
+                                                        <div class="pull-right mt-2">
+                                                            <button type="submit" class="btn btn-primary rounded w-100">Simpan</button>
+                                                        </div>
+                                                    </form>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -75,7 +87,7 @@
                                     <div class="post-content">
                                         <h4>Cara pembayaran</h4>
                                         <h5>Transfer Bank</h5>
-                                        <p>1. Silahkan melakukan pembayaran sejumlah <strong> Rp. {{format_angka_indo($total_bayar)}} </strong>
+                                        <p>1. Silahkan melakukan pembayaran sejumlah <strong> Rp. {{format_angka_indo($transaksi->total_bayar)}} </strong>
                                             ke rekening berikut
 
                                         </p>

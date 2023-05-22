@@ -37,6 +37,9 @@ Route::get('/event/distribution', [EventUserController::class, 'eventDistributio
 Route::post('/event/buy', [EventUserController::class, 'buyTicket'])->middleware('useraccess');
 Route::post('/event/buy/store', [EventUserController::class, 'storePurchase'])->middleware('useraccess');
 
+Route::get('/purchase/detail/{id}', [EventUserController::class, 'purchaseDetail']);
+Route::post('/purchase/upload/payment', [EventUserController::class, 'uploadPaymentProve']);
+
 Route::get('/berita', [BeritaUserController::class, 'index']);
 Route::get('/berita/detail/{id}', [BeritaUserController::class, 'detail']);
 

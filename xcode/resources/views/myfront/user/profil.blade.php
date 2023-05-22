@@ -104,7 +104,7 @@
                                                     <div class="swiper-slide">
                                                         <article>
                                                             <figure style="height: 250px;" class="overlay overlay-1 hover-scale rounded">
-                                                                <a href="#">
+                                                                <a href="{{url('/purchase/detail/'.encodeId($val->transaksi_event_id))}}">
                                                                     <img src="{{ getImageOri($val->event_poster)  }}" alt=""/></a>
                                                                 <figcaption>
                                                                     <h5 class="from-top mb-0">Selengkapnya</h5>
@@ -113,7 +113,7 @@
                                                             <div class="post-header">
                                                                 <h2 class="post-title h3">
                                                                     <a class="link-dark"
-                                                                       href="#"> {{$val->event_name}} </a>
+                                                                       href="{{url('/purchase/detail/'.encodeId($val->transaksi_event_id))}}"> {{$val->event_name}} </a>
                                                                 </h2>
                                                             </div>
                                                             <!-- /.post-header -->
