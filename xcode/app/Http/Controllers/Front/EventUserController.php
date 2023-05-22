@@ -20,8 +20,10 @@ use App\Models\Slider;
 use App\Models\Stores;
 use App\Models\SubCategory;
 use App\Models\Submission;
+use App\Models\TransaksiEvent;
 use App\Models\UPH;
 use App\Models\Voucher;
+use App\Services\hideyoriService;
 use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +33,14 @@ use Illuminate\Support\Facades\Redirect;
 class EventUserController extends Controller
 {
 
+
+    private $myService;
+
+    public function __construct()
+    {
+        $this->myService = new hideyoriService();
+        $this->context = 'tiket event';
+    }
 
     public function index(Request $request)
     {
@@ -80,17 +90,40 @@ class EventUserController extends Controller
         return view($view, $data);
     }
 
-    public function buyTicket($id){
+    public function buyTicket(Request $request){
         $view = 'myfront.event.buy_ticket_confirmation';
-
+        $id = $request->input('id');
+        $jumlah = $request->input('jumlah');
 
         $event = Event::find(decodeId($id));
+        $total_bayar = $jumlah * $event->event_harga_tiket;
+        $event_time = substr($event->event_waktu,11,5);
 
         $data = [
             'event' => $event,
+            'jumlah' => $jumlah,
+            'total_bayar' => $total_bayar,
+            'event_time' => $event_time
         ];
 
         return view($view, $data);
+    }
+
+    public function storePurchase(Request $request){
+        $id = $request->input('id');
+        $jumlah = $request->input('jumlah');
+
+        $event = Event::find(decodeId($id));
+        $total_bayar = $jumlah * $event->event_harga_tiket;
+
+        $data = array(
+            'user_id' => Auth::user()->id,
+            'event_id' => $event->event_id,
+            'jumlah' => $jumlah,
+            'total_bayar' => $total_bayar,
+        );
+
+        return storeData(TransaksiEvent::class, $data, $this->context, true, '/user');
     }
 
     public function eventDistribution(Request $request){

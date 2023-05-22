@@ -88,13 +88,59 @@
                                             @else
                                                 <tr>
                                                     <td style="width: fit-content;">Tiket dimiliki</td>
-                                                    <td class="text-center"> &emsp; <strong> </strong></td>
+                                                    <td class="text-center"> &emsp; <strong> {{$count_tiket_owned}} </strong></td>
                                                 </tr>
                                             @endif
                                         </table>
                                         <br>
                                     </div>
                                     <!-- /.post-content -->
+                                    <h5>Tiket terbaru yang dimiliki</h5>
+                                    <div class="swiper-container blog grid-view mb-6" data-margin="30" data-dots="true"
+                                         data-items-md="2" data-items-xs="1">
+                                        <div class="swiper">
+                                            <div class="swiper-wrapper">
+                                                @foreach($new_tiket_owned as $val)
+                                                    <div class="swiper-slide">
+                                                        <article>
+                                                            <figure style="height: 250px;" class="overlay overlay-1 hover-scale rounded">
+                                                                <a href="#">
+                                                                    <img src="{{ getImageOri($val->event_poster)  }}" alt=""/></a>
+                                                                <figcaption>
+                                                                    <h5 class="from-top mb-0">Selengkapnya</h5>
+                                                                </figcaption>
+                                                            </figure>
+                                                            <div class="post-header">
+                                                                <h2 class="post-title h3">
+                                                                    <a class="link-dark"
+                                                                       href="#"> {{$val->event_name}} </a>
+                                                                </h2>
+                                                            </div>
+                                                            <!-- /.post-header -->
+                                                            <div class="post-footer">
+                                                                <p> <strong>{{$val->jumlah}} </strong> buah tiket
+                                                                    <br>
+                                                                    Total Pembayaran <strong>Rp. {{format_angka_indo($val->total_bayar)}}</strong>
+                                                                    @if($val->status == 0)
+                                                                        <span class="badge rounded-pill bg-warning text-dark">Menunggu Konfirmasi Pembayaran</span>
+                                                                    @elseif($val->status == 1)
+                                                                        <span class="badge rounded-pill bg-success text-white"> Pembayaran Diverifikasi </span>
+                                                                    @elseif($val->status == 2)
+                                                                        <span class="badge rounded-pill bg-danger text-white"> Pembayaran Ditolak </span>
+                                                                    @endif
+                                                                </p>
+                                                            </div>
+                                                            <!-- /.post-footer -->
+                                                        </article>
+                                                        <!-- /article -->
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            <!--/.swiper-wrapper -->
+                                        </div>
+                                        <!-- /.swiper -->
+                                    </div>
+                                    <!-- /.swiper-container -->
                                 </div>
                             </div>
                             <!-- /.card -->

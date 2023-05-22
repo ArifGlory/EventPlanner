@@ -15,7 +15,8 @@
                                     @include('mycomponents.alert_front')
                                 </div>
                                 <figure class="card-img-top overlay overlay-1 hover-scale">
-                                    <a href="{{ getImageOri($event->event_poster)  }}"><img src="{{ getImageOri($event->event_poster)  }}" alt="" /></a>
+                                    <a href="{{ getImageOri($event->event_poster)  }}">
+                                        <img src="{{ getImageOri($event->event_poster)  }}" alt="" /></a>
                                 </figure>
                                 <div class="card-body">
                                     <div class="post-header">
@@ -59,18 +60,21 @@
                                     <div class="post-content">
                                         <br>
                                         <div class="row">
+                                            <form action="{{ url('/event/buy')  }}" method="post" enctype="multipart/form-data">
+                                                @csrf
                                             <div class="col-md-5">
+                                                <input type="hidden" name="id" value="{{encodeId($event->event_id)}}">
                                                 <h4>Atur jumlah tiket</h4>
                                                 <div class="input-group mb-3">
                                                     <button class="btn btn-outline-secondary" type="button" id="button-min">-</button>
-                                                    <input value="1" id="jumlah-tiket" type="number" class="form-control" placeholder="Jumlah tiket" aria-describedby="button-addon2">
+                                                    <input name="jumlah" value="1" id="jumlah-tiket" type="number" class="form-control" placeholder="Jumlah tiket" aria-describedby="button-addon2">
                                                     <button class="btn btn-outline-secondary" type="button" id="button-plus">+</button>
                                                 </div>
                                             </div>
                                             <div class="pull-right">
-                                                <a href="{{url('/event/buy/'.encodeId($event->event_id))}}" class="btn btn-primary rounded">
-                                                    Beli Tiket </a>
+                                                <button type="submit" class="btn btn-primary rounded">Beli Tiket </button>
                                             </div>
+                                            </form>
                                         </div>
                                     </div>
                                     <!-- /.post-content -->

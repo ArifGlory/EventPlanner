@@ -21,6 +21,7 @@ use App\Models\Slider;
 use App\Models\Stores;
 use App\Models\SubCategory;
 use App\Models\Submission;
+use App\Models\TransaksiEvent;
 use App\Models\UPH;
 use App\Models\UserHasRole;
 use App\Models\Voucher;
@@ -41,10 +42,17 @@ class ProfileUserController extends Controller
             ->count();
         $count_berita = Berita::where('created_by',Auth::user()->id)
             ->count();
+        $count_tiket_owned = TransaksiEvent::where('user_id',Auth::user()->id)
+            ->count();
+        $new_tiket_owned = TransaksiEvent::leftjoin('event', 'event.event_id', '=', 'transaksi_event.event_id')
+            ->where('transaksi_event.user_id',Auth::user()->id)
+            ->get();
 
         $data = [
             'count_event' => $count_event,
             'count_berita' => $count_berita,
+            'count_tiket_owned' => $count_tiket_owned,
+            'new_tiket_owned' => $new_tiket_owned,
         ];
 
         return view($view, $data);

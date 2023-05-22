@@ -34,7 +34,8 @@ Route::get('/planner/detail/{id}', [HomeController::class, 'detailPlanner']);
 Route::get('/event', [EventUserController::class, 'index']);
 Route::get('/event/detail/{id}', [EventUserController::class, 'detailEvent']);
 Route::get('/event/distribution', [EventUserController::class, 'eventDistribution']);
-Route::get('/event/buy/{id}', [EventUserController::class, 'buyTicket'])->middleware('useraccess');
+Route::post('/event/buy', [EventUserController::class, 'buyTicket'])->middleware('useraccess');
+Route::post('/event/buy/store', [EventUserController::class, 'storePurchase'])->middleware('useraccess');
 
 Route::get('/berita', [BeritaUserController::class, 'index']);
 Route::get('/berita/detail/{id}', [BeritaUserController::class, 'detail']);
