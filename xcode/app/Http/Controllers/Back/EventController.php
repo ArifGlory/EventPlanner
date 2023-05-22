@@ -18,6 +18,7 @@ use App\Models\PenyediaMaterialHarga;
 use App\Models\Product;
 use App\Models\Stores;
 use App\Models\SubCategory;
+use App\Models\TransaksiEvent;
 use App\Services\hideyoriService;
 use DataTables;
 use Illuminate\Http\Request;
@@ -83,7 +84,7 @@ class EventController  extends Controller
             })
             ->addColumn('action', function ($row) {
                 $izin = '';
-                $aksiDetail = detailButtonDT($row->product_id, 'main/event/detail');
+                $aksiDetail = detailButtonDT($row->event_id, 'main/event/detail');
                 $izin .= $aksiDetail;
                 $aksiEdit = editButtonDT($row->event_id, 'main/event/edit');
                 $aksiHapus = deleteButtonDT($row->event_id, 'deleteDataTable','event/delete');
@@ -96,6 +97,45 @@ class EventController  extends Controller
                 if (cekRoleAkses('superadmin') == true){
                     $izin .= $aksiHapus;
                 }*/
+
+                return aksiButton($izin);
+            })
+            ->escapeColumns([])
+            ->toJson();
+    }
+
+    public function dataTransaksi(Request $request)
+    {
+        $event_id = $request->input('event_id');
+        $data = TransaksiEvent::leftjoin('event', 'event.event_id', '=', 'transaksi_event.event_id')
+            ->leftjoin('users', 'users.id', '=', 'transaksi_event.user_id')
+            ->where('transaksi_event.event_id',$event_id)
+            ->get();
+
+        return Datatables::of($data)
+            ->addIndexColumn()
+            ->addColumn('dtResponsive', function () {
+                return '';
+            })
+            ->addColumn('checkbox', function ($row) {
+                $izin = checkboxRowDT($row->transaksi_event_id);
+                return $izin;
+            })
+            ->editColumn('event_harga_tiket', function ($row) {
+                return $row->event_harga_tiket ? format_angka_indo($row->event_harga_tiket) : '';
+            })
+            ->editColumn('total_bayar', function ($row) {
+                return $row->total_bayar ? format_angka_indo($row->total_bayar) : '';
+            })
+            ->editColumn('event_waktu', function ($row) {
+                return $row->event_waktu ? TanggalIndowaktu($row->event_waktu) : '';
+            })
+            ->editColumn('bukti_bayar', function ($row) {
+                return $row->bukti_bayar ? '<a class="image-popup-no-margins" href="'.getImageOri($row->bukti_bayar).'"><img class="img-thumbnail" style="width:100px; heigth:100px" src="'.getImageThumb($row->bukti_bayar).'"></a>' : '-';
+            })
+            ->addColumn('action', function ($row) {
+                $izin = '';
+
 
                 return aksiButton($izin);
             })
@@ -287,16 +327,18 @@ class EventController  extends Controller
 
     public function show($id)
     {
-        $master = $this->myService->find(Product::class, decodeId($id));
-        $store = Stores::find($master->store_id);
-        $subcategory = SubCategory::find($master->subcategory_id);
-        $tags = explode(",",$master->product_tags);
+        $master = Event::leftjoin('category', 'category.category_id', '=', 'event.event_category_id')
+            ->where('event_id',decodeId($id))
+            ->first();
+        $transaksi = TransaksiEvent::where('event_id',$master->event_id)
+            ->get();
+        $event_time = substr($master->event_waktu,11,5);
+
         $data =
             [
                 'row' => $master,
-                'tags' => $tags,
-                'store' => $store,
-                'subcategory' => $subcategory,
+                'transaksi' => $transaksi,
+                'event_time' => $event_time,
             ];
         $view = 'mypanel.event.show';
         return view($view, $data);

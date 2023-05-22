@@ -95,7 +95,9 @@
                                         <br>
                                     </div>
                                     <!-- /.post-content -->
-                                    <h5>Tiket terbaru yang dimiliki</h5>
+                                    @if(cekRoleAkses('user'))
+                                        <h5>Tiket terbaru yang dimiliki</h5>
+                                    @endif
                                     <div class="swiper-container blog grid-view mb-6" data-margin="30" data-dots="true"
                                          data-items-md="2" data-items-xs="1">
                                         <div class="swiper">

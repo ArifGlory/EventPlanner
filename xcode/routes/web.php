@@ -133,6 +133,7 @@ Route::group(['prefix' => 'main', 'middleware' => ['web', 'auth']], function () 
         Route::group(['prefix' => 'event'], function () {
             Route::get('/', [EventController::class, 'index']);
             Route::get('data', [EventController::class, 'data']);
+            Route::get('data/transaksi', [EventController::class, 'dataTransaksi']);
             Route::get('form', [EventController::class, 'form']);
             Route::post('create', [EventController::class, 'store']);
             Route::put('update/{id}', [EventController::class, 'update']);
