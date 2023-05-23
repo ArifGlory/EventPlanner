@@ -36,7 +36,6 @@ class CategoryController  extends Controller
     {
         $view = 'mypanel.category.index';
         $data = [
-            //'listJenisSapi' => $listJenisSapi,
         ];
 
         return view($view, $data);
