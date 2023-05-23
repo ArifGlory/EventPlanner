@@ -38,7 +38,7 @@
                                                     <span class="badge rounded-pill bg-danger text-white"> Pembayaran Ditolak </span>
                                                 @endif
                                                 <div class="mt-5 mb-3"></div>
-                                                @if($transaksi->bukti_bayar == null)
+                                                @if($transaksi->bukti_bayar == null || $transaksi->status == 2)
                                                     <br>
                                                     <h6>Upload Bukti Pembayaran</h6>
                                                     <form action="{{ url('/purchase/upload/payment')  }}" method="post" enctype="multipart/form-data">
@@ -51,7 +51,7 @@
                                                             <button type="submit" class="btn btn-primary rounded w-100">Kirim</button>
                                                         </div>
                                                     </form>
-                                                @else
+                                                @elseif($transaksi->status == 1 || $transaksi->status == 0)
                                                     <span class="badge rounded-pill bg-primary text-white"> Bukti bayar telah dikirim </span>
                                                 @endif
                                             </div>
