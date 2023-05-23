@@ -133,10 +133,12 @@ class EventUserController extends Controller
         $view = 'myfront.event.purchase_detail';
         $event_time = substr($event->event_waktu,11,5);
 
+
+
         $data = array(
             'transaksi' => $transaksi,
             'event' => $event,
-            'event_time' => $event_time
+            'event_time' => $event_time,
         );
 
         return view($view, $data);
@@ -151,6 +153,7 @@ class EventUserController extends Controller
             $gambar = StoreFileWithFolder($request->file('bukti_bayar'), 'public', 'bukti');
         }
         $requestData['bukti_bayar'] = $gambar;
+        $requestData['status'] = 0;
 
         return updateData($master, $requestData, $this->context, true, '/purchase/detail/'.$transaksi_id,"berhasil upload bukti bayar");
     }
