@@ -124,6 +124,14 @@ class EventController  extends Controller
             ->editColumn('event_harga_tiket', function ($row) {
                 return $row->event_harga_tiket ? format_angka_indo($row->event_harga_tiket) : '';
             })
+            ->editColumn('name', function ($row) {
+                if ($row->status == 1){
+                    $name = $row->name." ".'<h6>'.$row->kode_tiket.'</h6>';
+                }else{
+                    $name = $row->name;
+                }
+                return $name;
+            })
             ->editColumn('total_bayar', function ($row) {
                 return $row->total_bayar ? format_angka_indo($row->total_bayar) : '';
             })
@@ -135,6 +143,21 @@ class EventController  extends Controller
             })
             ->addColumn('action', function ($row) {
                 $izin = '';
+                if (cekRoleAkses('store')){
+                    if ($row->status == 0){
+                        $aksiAccept = acceptButtonDT($row->transaksi_event_id, 'main/event/purchase/accept');
+                        $izin .= $aksiAccept;
+
+                        $aksiDecline  = declineButtonDT($row->transaksi_event_id,'main/event/purchase/decline');
+                        $izin .= $aksiDecline;
+                    }else if ($row->status == 1){
+                        $info = '<h6><span class="badge badge-success">Pembelian Diverifikasi</span></h6>';
+                        $izin .=$info;
+                    }else if ($row->status == 2){
+                        $info = '<h6><span class="badge badge-danger">Pembelian Ditolak</span></h6>';
+                        $izin .=$info;
+                    }
+                }
 
 
                 return aksiButton($izin);
@@ -143,6 +166,27 @@ class EventController  extends Controller
             ->toJson();
     }
 
+    public function acceptPurchase($id){
+        $transaksi = TransaksiEvent::find(decodeId($id));
+        $kode_tiket = random_bytes(3);
+        $kode_tiket = bin2hex($kode_tiket);
+        $kode_tiket = strtoupper($kode_tiket);
+
+        $data_update['status'] = 1;
+        $data_update['kode_tiket'] = $kode_tiket;
+        $update = $transaksi->update($data_update);
+
+        return $this->show(encodeId($transaksi->event_id));
+    }
+
+    public function declinePurchase($id){
+        $transaksi = TransaksiEvent::find(decodeId($id));
+        $data_update['status'] = 2;
+        //$data_update['bukti_bayar'] = null;
+        $update = $transaksi->update($data_update);
+
+        return $this->show(encodeId($transaksi->event_id));
+    }
 
     public function form()
     {

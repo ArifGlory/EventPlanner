@@ -30,10 +30,14 @@
                                                     <span class="badge rounded-pill bg-warning text-dark">Menunggu Konfirmasi Pembayaran</span>
                                                 @elseif($transaksi->status == 1)
                                                     <span class="badge rounded-pill bg-success text-white"> Pembayaran Diverifikasi </span>
+                                                    <div class="pull-right">
+                                                        <label>Kode Tiket</label>
+                                                        <h2>{{$transaksi->kode_tiket}}</h2>
+                                                    </div>
                                                 @elseif($transaksi->status == 2)
                                                     <span class="badge rounded-pill bg-danger text-white"> Pembayaran Ditolak </span>
                                                 @endif
-                                                <div class="mt-3 mb-3"></div>
+                                                <div class="mt-5 mb-3"></div>
                                                 @if($transaksi->bukti_bayar == null)
                                                     <br>
                                                     <h6>Upload Bukti Pembayaran</h6>
