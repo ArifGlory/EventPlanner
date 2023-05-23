@@ -83,7 +83,7 @@ class BeritaController  extends Controller
             ->addColumn('action', function ($row) {
                 $izin = '';
                 $aksiDetail = detailButtonDT($row->berita_id, 'main/berita/detail');
-                $izin .= $aksiDetail;
+               // $izin .= $aksiDetail;
                 $aksiEdit = editButtonDT($row->berita_id, 'main/berita/edit');
                 $aksiHapus = deleteButtonDT($row->berita_id, 'deleteDataTable','berita/delete');
 

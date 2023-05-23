@@ -17,6 +17,7 @@ use App\Models\Stores;
 use App\Services\hideyoriService;
 use DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use function GuzzleHttp\Promise\all;
 
 
@@ -43,7 +44,9 @@ class CategoryController  extends Controller
 
     public function data(Request $request)
     {
-        $data = Category::get();
+        $data = Category::where('created_by',null)
+            ->orWhere('created_by',Auth::user()->id)
+            ->get();
 
         return Datatables::of($data)
             ->addIndexColumn()
@@ -60,13 +63,11 @@ class CategoryController  extends Controller
             ->addColumn('action', function ($row) {
                 $izin = '';
                 $aksiDetail = detailButtonDT($row->category_id, 'main/category/detail');
-                $izin .= $aksiDetail;
+                //$izin .= $aksiDetail;
                 $aksiEdit = editButtonDT($row->category_id, 'main/category/edit');
                 $aksiHapus = deleteButtonDT($row->category_id, 'deleteDataTable','category/delete');
-                if ( cekRoleAkses('superadmin') == true || cekRoleAkses('admin') == true ) {
+                if ($row->created_by == Auth::user()->id){
                     $izin .= $aksiEdit;
-                }
-                if (cekRoleAkses('superadmin') == true){
                     $izin .= $aksiHapus;
                 }
 
@@ -106,6 +107,7 @@ class CategoryController  extends Controller
         );
 
         $requestData = $request->all();
+        $requestData['created_by'] = Auth::user()->id;
 
         return storeData(Category::class, $requestData, $this->context, true, 'main/category');
     }

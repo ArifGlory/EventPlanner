@@ -190,9 +190,12 @@ class EventController  extends Controller
 
     public function form()
     {
+        $category = Category::where('created_by',null)
+            ->orWhere('created_by',Auth::user()->id)
+            ->get();
 
         $data = [
-            'category' => Category::all(),
+            'category' => $category,
             'mode' => 'add',
             'action' => url('main/event/create'),
             'id' => '',
@@ -266,6 +269,10 @@ class EventController  extends Controller
     {
         $master = $this->myService->find(Event::class, decodeId($id));
         $selected_category = Category::find($master->event_category_id);
+        $category = Category::where('created_by',null)
+            ->orWhere('created_by',Auth::user()->id)
+            ->get();
+
         if ($master->event_latitude){
             $lat = $master->event_latitude;
             $lon = $master->event_longitude;
@@ -277,7 +284,7 @@ class EventController  extends Controller
         $data =
             [
                 'mode' => 'edit',
-                'category' => Category::all(),
+                'category' => $category,
                 'selected_category' => $selected_category,
                 'action' => url('main/event/update/' . $id),
                 'id' => $id,

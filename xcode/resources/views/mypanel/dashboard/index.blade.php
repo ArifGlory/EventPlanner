@@ -162,11 +162,11 @@
                     <div class="col-lg-6 col-6">
                         <div class="small-box bg-fuchsia" style="background-color: #E668B3!important;">
                             <div class="inner">
-                                <h3> 0 </h3>
-                                <p>Tiket terbeli</p>
+                                <h3> {{$berita}} </h3>
+                                <p>Berita</p>
                             </div>
                             <div class="icon">
-                                <i class="fas fa-shopping-cart"></i>
+                                <i class="fas fa-file-alt"></i>
                             </div>
                         </div>
                     </div>

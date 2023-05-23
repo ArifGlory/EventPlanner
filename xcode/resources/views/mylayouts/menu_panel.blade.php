@@ -41,6 +41,14 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{url('main/category')}}" class="nav-link {{ activeMenu('main/category') }}">
+                            <i class="nav-icon fas fa-list"></i>
+                            <p>
+                                Kategori
+                            </p>
+                        </a>
+                    </li>
                 @endif
 
 

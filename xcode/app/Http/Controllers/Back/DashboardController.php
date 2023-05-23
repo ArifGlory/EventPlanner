@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
+use App\Models\Berita;
 use App\Models\BibitMani;
 use App\Models\ChildDetailKategori;
 use App\Models\DetailKategori;
@@ -44,6 +45,8 @@ class DashboardController extends Controller
 
         $data = [
             'event' => Event::where('created_by',Auth::user()->id)
+                ->count(),
+            'berita' => Berita::where('created_by',Auth::user()->id)
                 ->count(),
         ];
 
