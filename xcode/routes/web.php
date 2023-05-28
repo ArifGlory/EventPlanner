@@ -135,13 +135,14 @@ Route::group(['prefix' => 'main', 'middleware' => ['web', 'auth']], function () 
             Route::get('data', [EventController::class, 'data']);
             Route::get('data/transaksi', [EventController::class, 'dataTransaksi']);
             Route::get('purchase/accept/{id}', [EventController::class, 'acceptPurchase']);
-            Route::get('purchase/decline/{id}', [EventController::class, 'declinePurchase']);
+            Route::get('purchase/decline/{id}', [EventController::class, 'declineForm']);
+            Route::post('purchase/decline', [EventController::class, 'declinePurchase']);
             Route::get('form', [EventController::class, 'form']);
             Route::post('create', [EventController::class, 'store']);
             Route::put('update/{id}', [EventController::class, 'update']);
             Route::get('edit/{id}', [EventController::class, 'edit']);
             Route::delete('delete/{id}', [EventController::class, 'destroy']);
-            Route::get('detail/{id}', [EventController::class, 'show']);
+            Route::get('detail/{id}', [EventController::class, 'show'])->name('event.detail');
             Route::get('update-status', [EventController::class, 'updateStatus']);
             Route::post('bulkStatus', [EventController::class, 'bulkStatus']);
         });

@@ -36,9 +36,13 @@
                                                     </div>
                                                 @elseif($transaksi->status == 2)
                                                     <span class="badge rounded-pill bg-danger text-white"> Pembayaran Ditolak </span>
+                                                    <div class="form-group mt-5">
+                                                        <label>Alasan Penolakan</label>
+                                                        <h5>{{$transaksi->decline_reason}}</h5>
+                                                    </div>
                                                 @endif
                                                 <div class="mt-5 mb-3"></div>
-                                                @if($transaksi->bukti_bayar == null || $transaksi->status == 2)
+                                                @if($transaksi->bukti_bayar == null)
                                                     <br>
                                                     <h6>Upload Bukti Pembayaran</h6>
                                                     <form action="{{ url('/purchase/upload/payment')  }}" method="post" enctype="multipart/form-data">

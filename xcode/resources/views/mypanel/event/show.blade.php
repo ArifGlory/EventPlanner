@@ -120,6 +120,7 @@
                                                     <th style="width: 50px">Jumlah</th>
                                                     <th style="width: 50px">Total Bayar</th>
                                                     <th style="width: 50px">Bukti</th>
+                                                    <th style="width: 50px">Alasan Penolakan</th>
                                                     <th style="width: 75px" class="not-export-col">
                                                         Action
                                                     </th>
@@ -202,6 +203,9 @@
 
                     {
                         data: 'bukti_bayar', name: 'bukti_bayar',
+                    },
+                    {
+                        data: 'decline_reason', name: 'decline_reason',
                     },
 
                     {

@@ -179,13 +179,31 @@ class EventController  extends Controller
         return $this->show(encodeId($transaksi->event_id));
     }
 
-    public function declinePurchase($id){
-        $transaksi = TransaksiEvent::find(decodeId($id));
+    public function declineForm($id){
+        $transaksi = TransaksiEvent::leftjoin('event', 'event.event_id', '=', 'transaksi_event.event_id')
+            ->leftjoin('users', 'users.id', '=', 'transaksi_event.user_id')
+            ->where('transaksi_event.transaksi_event_id',decodeId($id))
+            ->first();
+        $data = [
+            'mode' => 'add',
+            'transaksi' => $transaksi,
+            'action' => url('main/event/purchase/decline'),
+            'id' => '',
+        ];
+        $view = 'mypanel.event.decline_form';
+        return view($view, $data);
+    }
+
+
+    public function declinePurchase(Request $request){
+        $id_transaksi = decodeId($request->input('id'));
+        $transaksi = TransaksiEvent::find(decodeId($id_transaksi));
         $data_update['status'] = 2;
+        $data_update['decline_reason'] = $request->input('decline_reason');
         //$data_update['bukti_bayar'] = null;
         $update = $transaksi->update($data_update);
 
-        return $this->show(encodeId($transaksi->event_id));
+        return redirect()->route('event.detail',encodeId($transaksi->event_id));
     }
 
     public function form()
