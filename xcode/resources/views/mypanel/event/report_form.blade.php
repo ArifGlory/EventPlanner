@@ -52,7 +52,7 @@ $titlePage = "Buat Report";
                                                 <div class="row">
                                                     @if($mode=='edit')
                                                     @endif
-                                                    <div class="col-lg-12">
+                                                   {{-- <div class="col-lg-12">
                                                         <div class="mb-3">
                                                             <label class="form-label" for="category_name">Dari
                                                                 Tanggal</label>
@@ -81,15 +81,26 @@ $titlePage = "Buat Report";
                                                             </div>
                                                             @enderror
                                                         </div>
-                                                    </div>
-                                                        <div class="col-lg-12">
-                                                            <div class="mb-3">
-                                                                <div class="form-check form-switch">
-                                                                    <input name="is_transaksi" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                                                    <label class="form-check-label" for="flexSwitchCheckDefault">Cetak Transaksi Pembelian Juga</label>
-                                                                </div>
+                                                    </div>--}}
+                                                    <div class="col-lg-12">
+                                                        {{--<div class="mb-3">
+                                                            <div class="form-check form-switch">
+                                                                <input name="is_transaksi" class="form-check-input"
+                                                                       type="checkbox" id="flexSwitchCheckDefault">
+                                                                <label class="form-check-label"
+                                                                       for="flexSwitchCheckDefault">Cetak Transaksi
+                                                                    Pembelian Juga</label>
                                                             </div>
+                                                        </div>--}}
+                                                        <div class="form-group">
+                                                            <label>Pilih Event</label>
+                                                            <select name="event_id" class="form-control" required>
+                                                                @foreach($event as $val)
+                                                                    <option value="{{$val->event_id}}"> {{$val->event_name}} </option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="card-footer">

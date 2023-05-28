@@ -40,6 +40,9 @@
                                         </a>
                                     </div>
                                 </div>
+                                <div class="col-lg-12">
+                                    @include('mycomponents.alert')
+                                </div>
                                 <div class="card-body p-0">
                                     <table class="table">
 

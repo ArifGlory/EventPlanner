@@ -2,7 +2,7 @@
 <html lang="en" xmlns:background-color="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Laporan Event <?php echo $user->name;?> </title>
+    <title>Laporan Event <?php echo $user->name; ?> </title>
     <!--<script>
         document.addEventListener('DOMContentLoaded', function(){
             // your code goes here
@@ -21,45 +21,55 @@
             border-width: 1px 0;
             margin: 18px 0;
         }
-        table{
+
+        table {
             border-collapse: collapse;
             width: 100%;
         'margin: 0 auto;
         }
-        .borderless{
-            border:0px;
+
+        .borderless {
+            border: 0px;
         }
-        .spacer{
+
+        .spacer {
             display: block;
             padding-top: 10px;
-            padding-bottom:10px
+            padding-bottom: 10px
         }
-        .border1{
-            border:3px solid #000;
+
+        .border1 {
+            border: 3px solid #000;
             padding: 3px;
         }
-        .border1 td{
-            border:1px solid #000;
+
+        .border1 td {
+            border: 1px solid #000;
             padding: 2px;
         }
-        .border1 th{
-            border:1px solid #000;
+
+        .border1 th {
+            border: 1px solid #000;
             padding: 3px;
         }
-        .tebal2{
+
+        .tebal2 {
             font-weight: bold;
         }
-        #tebal{
-            border:1px solid #000;
+
+        #tebal {
+            border: 1px solid #000;
             padding: 3px;
             font-weight: normal;
             text-align: center;
         }
-        #garis{
+
+        #garis {
             width: 40%;
             border: 1px solid #000000;
         }
-        .text-left{
+
+        .text-left {
             text-align: left;
         }
 
@@ -68,15 +78,18 @@
                 background-color: #b0bec5 !important;
                 -webkit-print-color-adjust: exact;
             }
+
             html, body {
                 width: 210mm;
                 height: 330mm;
             }
-            header,footer {
+
+            header, footer {
                 display: none;
             }
         }
-        @page{
+
+        @page {
             /* margin: 0;
              padding-top: 5cm;*/
             margin-top: 2cm;
@@ -87,18 +100,36 @@
 
     </style>
     <style type="text/css" media="all">
-        .under { text-decoration: underline;
+        .under {
+            text-decoration: underline;
             color: #000000;
         }
-        .over  { text-decoration: overline; }
-        .line  { text-decoration: line-through; }
-        .blink { text-decoration: blink; }
-        .all   { text-decoration: underline overline line-through; }
-        a      { text-decoration: none; }
+
+        .over {
+            text-decoration: overline;
+        }
+
+        .line {
+            text-decoration: line-through;
+        }
+
+        .blink {
+            text-decoration: blink;
+        }
+
+        .all {
+            text-decoration: underline overline line-through;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
         .my-center {
             text-align: center;
         }
-        .no-margin-vertical{
+
+        .no-margin-vertical {
             margin-bottom: 0;
             margin-top: 1;
         }
@@ -108,19 +139,18 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10">
-            <h1 style="margin-bottom: 0px;"><?php echo $user->name;?></h1>
-            <h6 style="margin-top: 1px;"> <i> Phone <?php echo $user->phone;?> </i> </h6>
+            <h1 style="margin-bottom: 0px;"><?php echo $user->name; ?></h1>
+            <h6 style="margin-top: 1px;"><i> Phone <?php echo $user->phone; ?> </i></h6>
         </div>
         <div class="col-md-12">
             <div class="text-center">
-                <h2 style="align-self: center;" class="my-center">Laporan Data Event </h2>
+                <h2 style="align-self: center;" class="my-center">Laporan Data Transaksi Event <br> <?php echo $event->event_name; ?> </h2>
             </div>
         </div>
         <div class="col-md-9">
             <p class="no-margin-vertical">Laporan dibuat tanggal : <?php echo $now; ?> </p>
-            <p class="no-margin-vertical">Jumlah Data : <?php echo count($events); ?> </p>
             <br>
-            <p class="no-margin-vertical">Data Tanggal <?php echo $dari; ?> s/d Tanggal <?php echo $sampai; ?> </p>
+           <!-- <p class="no-margin-vertical">Data Tanggal <?php /*echo $dari; */?> s/d Tanggal <?php /*echo $sampai; */?> </p>-->
         </div>
         <div class="bb-1 mt-1 w-100"></div>
         <div class="bb-3 mt-2 w-100"></div>
@@ -133,35 +163,57 @@
                     <thead class="thead-dark">
                     <tr>
                         <td>No.</td>
-                        <td>Tanggal</td>
-                        <td>Nama Event</td>
-                        <td>Lokasi Event</td>
-                        <td>Harga Event</td>
+                        <td>Nama</td>
+                        <td>Jumlah Pembelian</td>
+                        <td>Total Bayar</td>
+                        <td>Status</td>
                     </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        $no = 1;
-                        foreach ($events as $val) {
-                            ?>
-                            <tr>
-                                <td> <?php echo $no++;?> </td>
-                                <td> <?php echo $val->waktu_event?> </td>
-                                <td> <?php echo $val->event_name; ?> </td>
-                                <td> <?php echo $val->event_lokasi; ?> </td>
-                                <td>Rp. <?php echo number_format($val->event_harga_tiket,0,',','.') ?> </td>
-                            </tr>
-                        <?php } ?>
+                    <?php
+                    $no = 1;
+                    $total_pendapatan = 0;
+                    $total_kekurangan_pendapatan = 0;
+                    foreach ($transaksi as $val) {
+                        if($val->status == 1){
+                            $total_pendapatan += $val->total_bayar;
+                        }else if ($val->status == 0){
+                            $total_kekurangan_pendapatan += $val->total_bayar;
+                        }
+                        ?>
+                        <tr>
+                            <td> <?php echo $no++; ?> </td>
+                            <td> <?php echo $val->name ?> </td>
+                            <td> <?php echo $val->jumlah ?> </td>
+                            <td>Rp. <?php echo number_format($val->total_bayar, 0, ',', '.') ?> </td>
+                            <td>
+                                <?php
+                                    if ($val->status == 0){
+                                        echo "Menunggu Konfirmasi Pembayaran";
+                                    }else if ($val->status == 1){
+                                        echo "Pembayaran Diverifikasi";
+                                    }else if ($val->status == 1){
+                                        echo "Pembayaran Ditolak";
+                                    }
+                                ?>
+                            </td>
+                        </tr>
+                    <?php } ?>
                     </tbody>
                 </table>
             </div>
         </div>
 
     </div>
-    <div class="row mt-3">
+    <div class="row mt-3" style="margin-top: 10px;">
         <div class="col-md-12">
-            <!--<h5 style="margin-top: 1px;">Total Keuntungan : Rp. <?php /*echo number_format($total_untung,0,',','.') */?> </h5>
-            <h5 style="margin-top: 1px;">Total Pendapatan : Rp. <?php /*echo number_format($total_pendapatan,0,',','.') */?> </h5>-->
+            <p style="margin-top: 1px;">
+                Total Transaksi : Rp. <?php echo count($transaksi); ?>
+                <br>
+                Total Pendapatan : Rp. <?php echo number_format($total_pendapatan,0,',','.')  ?>
+                <br>
+                Total Pembayaran belum diverifikasi : Rp. <?php echo number_format($total_kekurangan_pendapatan,0,',','.')  ?>
+            </p>
         </div>
     </div>
 </div>

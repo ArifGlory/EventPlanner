@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 
 class EventController  extends Controller
@@ -156,13 +157,38 @@ class EventController  extends Controller
 
     public function acceptPurchase($id){
         $transaksi = TransaksiEvent::find(decodeId($id));
-        $kode_tiket = random_bytes(3);
-        $kode_tiket = bin2hex($kode_tiket);
-        $kode_tiket = strtoupper($kode_tiket);
+        $event = Event::find($transaksi->event_id);
 
-        $data_update['status'] = 1;
-        $data_update['kode_tiket'] = $kode_tiket;
-        $update = $transaksi->update($data_update);
+        if ($event->event_stok_tiket - $transaksi->jumlah <= 0){
+            //stok tiket kurang
+            $message = "Tidak dapat accept pembelian, stok tiket kurang";
+            $msg['title'] = 'Gagal';
+            $msg['status'] = false;
+            $msg['tipe'] = 'error';
+            $msg['message'] = $message;
+            Session::flash('feedback', $msg);
+        }else{
+            $kode_tiket = random_bytes(3);
+            $kode_tiket = bin2hex($kode_tiket);
+            $kode_tiket = strtoupper($kode_tiket);
+
+            $data_update['status'] = 1;
+            $data_update['kode_tiket'] = $kode_tiket;
+            $update = $transaksi->update($data_update);
+
+
+            $message = "Pembelian berhasil diverifikasi";
+            $msg['title'] = 'Berhasil';
+            $msg['status'] = true;
+            $msg['tipe'] = 'success';
+            $msg['message'] = $message;
+            Session::flash('feedback', $msg);
+
+            $data_update_event['event_stok_tiket'] = $event->event_stok_tiket - $transaksi->jumlah;
+            $event->update($data_update_event);
+        }
+
+
 
         return $this->show(encodeId($transaksi->event_id));
     }
@@ -416,8 +442,11 @@ class EventController  extends Controller
 
     public function reportForm(){
         $view = 'mypanel.event.report_form';
+        $event = Event::where('created_by',Auth::user()->id)
+            ->get();
         $data = [
             'mode' => 'add',
+            'event' => $event,
             'action' => url('main/event/report/generate'),
         ];
 
@@ -426,12 +455,14 @@ class EventController  extends Controller
 
     public function generateReport(Request $request){
         $rule = [
-            'from' => 'required',
-            'until' => 'required',
+           // 'from' => 'required',
+            //'until' => 'required',
+            'event_id' => 'required',
         ];
         $attributeRule = [
             'from' => 'Waktu Awal',
             'until' => 'waktu akhir',
+            'event_id' => 'nama event',
             'is_transaksi' => 'apakah cetak transaksi',
         ];
         $this->validate($request,
@@ -441,31 +472,20 @@ class EventController  extends Controller
         );
 
         $requestData = $request->all();
-        $is_transaksi = false;
-        if (isset($requestData['is_transaksi'])){
-            $is_transaksi = true;
-        }
-        $dari = Carbon::createFromFormat('Y-m-d',$requestData['from'])->format('d F Y');
-        $sampai = Carbon::createFromFormat('Y-m-d',$requestData['until'])->format('d F Y');
         $today = date('Y-m-d');
         $now = Carbon::createFromFormat('Y-m-d',$today)->format('d F Y');
 
-        $events = Event::select('event.*','category_name')
-            ->leftjoin('category', 'category.category_id', '=', 'event.event_category_id')
-            ->where('event.created_by',Auth::user()->id)
-            ->whereBetween('event.created_at', [$requestData['from'], $requestData['until']])
-            ->get()
-            ->map(function ($item){
-            $waktu_event = Carbon::createFromFormat('Y-m-d H:i:s',$item->created_at)->format('d F Y');
-            $item->created_at = $waktu_event;
-            $item->waktu_event = $waktu_event;
-            return $item;
-        });
+        $transaksi = TransaksiEvent::leftjoin('users', 'users.id', '=', 'transaksi_event.user_id')
+            ->where('transaksi_event.event_id',$requestData['event_id'])
+            //->whereBetween('transaksi_event.created_at', [$requestData['from'], $requestData['until']])
+            ->get();
+        $event = Event::find($requestData['event_id']);
 
         $data = array(
-            'events' => $events,
-            'dari' => $dari,
-            'sampai' => $sampai,
+            'event' => $event,
+            'transaksi' => $transaksi,
+            //'dari' => $dari,
+            //'sampai' => $sampai,
             'user' => Auth::user(),
             'now' => $now,
         );
