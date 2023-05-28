@@ -426,5 +426,45 @@ class EventController  extends Controller
         }
     }
 
+    public function reportForm(){
+        $view = 'mypanel.event.report_form';
+        $data = [
+            'mode' => 'add',
+            'action' => url('main/event/report/generate'),
+        ];
+
+        return view($view,$data);
+    }
+
+    public function generateReport(Request $request){
+        $rule = [
+            'from' => 'required',
+            'until' => 'required',
+        ];
+        $attributeRule = [
+            'from' => 'Waktu Awal',
+            'until' => 'waktu akhir',
+            'is_transaksi' => 'apakah cetak transaksi',
+        ];
+        $this->validate($request,
+            $rule,
+            [],
+            $attributeRule
+        );
+
+        $requestData = $request->all();
+        $is_transaksi = false;
+        if (isset($requestData['is_transaksi'])){
+            $is_transaksi = true;
+        }
+        $events = Event::leftjoin('category', 'category.category_id', '=', 'event.event_category_id')
+            ->where('event.created_by',Auth::user()->id)
+            ->whereBetween('event.created_at', [$requestData['from'], $requestData['until']])
+            ->get();
+        dd($events);
+
+
+    }
+
 
 }

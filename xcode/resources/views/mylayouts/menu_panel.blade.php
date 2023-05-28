@@ -49,6 +49,14 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{url('main/event/report')}}" class="nav-link">
+                            <i class="nav-icon fas fa-file-pdf"></i>
+                            <p>
+                                Report Event
+                            </p>
+                        </a>
+                    </li>
                 @endif
 
 

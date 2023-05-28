@@ -143,6 +143,8 @@ Route::group(['prefix' => 'main', 'middleware' => ['web', 'auth']], function () 
             Route::get('edit/{id}', [EventController::class, 'edit']);
             Route::delete('delete/{id}', [EventController::class, 'destroy']);
             Route::get('detail/{id}', [EventController::class, 'show'])->name('event.detail');
+            Route::get('report', [EventController::class, 'reportForm'])->name('event.report');
+            Route::post('report/generate', [EventController::class, 'generateReport'])->name('event.report.generate');
             Route::get('update-status', [EventController::class, 'updateStatus']);
             Route::post('bulkStatus', [EventController::class, 'bulkStatus']);
         });
