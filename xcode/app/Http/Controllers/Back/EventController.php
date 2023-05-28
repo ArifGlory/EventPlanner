@@ -3,27 +3,15 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Role\Store;
-use App\Models\BibitMani;
 use App\Models\Category;
-use App\Models\ChildDetailKategori;
-use App\Models\DetailKategori;
-use App\Models\DetailStrawmani;
 use App\Models\Event;
-use App\Models\JenisSapi;
-use App\Models\MaterialMaster;
-use App\Models\Penyedia;
-use App\Models\PenyediaMaterial;
-use App\Models\PenyediaMaterialHarga;
-use App\Models\Product;
-use App\Models\Stores;
-use App\Models\SubCategory;
 use App\Models\TransaksiEvent;
 use App\Services\hideyoriService;
 use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use function GuzzleHttp\Promise\all;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 
 class EventController  extends Controller
@@ -457,11 +445,34 @@ class EventController  extends Controller
         if (isset($requestData['is_transaksi'])){
             $is_transaksi = true;
         }
-        $events = Event::leftjoin('category', 'category.category_id', '=', 'event.event_category_id')
+        $dari = Carbon::createFromFormat('Y-m-d',$requestData['from'])->format('d F Y');
+        $sampai = Carbon::createFromFormat('Y-m-d',$requestData['until'])->format('d F Y');
+        $today = date('Y-m-d');
+        $now = Carbon::createFromFormat('Y-m-d',$today)->format('d F Y');
+
+        $events = Event::select('event.*','category_name')
+            ->leftjoin('category', 'category.category_id', '=', 'event.event_category_id')
             ->where('event.created_by',Auth::user()->id)
             ->whereBetween('event.created_at', [$requestData['from'], $requestData['until']])
-            ->get();
-        dd($events);
+            ->get()
+            ->map(function ($item){
+            $waktu_event = Carbon::createFromFormat('Y-m-d H:i:s',$item->created_at)->format('d F Y');
+            $item->created_at = $waktu_event;
+            $item->waktu_event = $waktu_event;
+            return $item;
+        });
+
+        $data = array(
+            'events' => $events,
+            'dari' => $dari,
+            'sampai' => $sampai,
+            'user' => Auth::user(),
+            'now' => $now,
+        );
+
+        $pdf = PDF::loadView('report_event',$data);
+
+        return $pdf->download('report_event.pdf');
 
 
     }
