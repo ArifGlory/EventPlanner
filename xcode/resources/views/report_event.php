@@ -109,7 +109,7 @@
     <div class="row">
         <div class="col-md-10">
             <h1 style="margin-bottom: 0px;"><?php echo $user->name;?></h1>
-            <h3 style="margin-top: 1px;"><?php echo $user->phone;?></h3>
+            <h6 style="margin-top: 1px;"> <i> Phone <?php echo $user->phone;?> </i> </h6>
         </div>
         <div class="col-md-12">
             <div class="text-center">
