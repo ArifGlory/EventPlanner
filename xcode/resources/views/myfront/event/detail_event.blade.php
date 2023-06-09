@@ -32,6 +32,11 @@
                                         <br>
                                     </div>
                                     <!-- /.post-content -->
+                                    <div class="text-right mt-3 mb-0">
+                                        <a href="{{url('/planner/detail/'.encodeId($event->id))}}">
+                                            <h6>Diselenggarakan oleh {{$event->planner}} </h6>
+                                        </a>
+                                    </div>
                                 </div>
                                 <!--/.card-body -->
                                 <div class="card-footer">

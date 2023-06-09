@@ -89,10 +89,14 @@ class HomeController extends Controller
             ->inRandomOrder()
             ->limit(5)
             ->get();
+        $event_by_planner = Event::where('created_by',$planner->id)
+            ->limit(10)
+            ->get();
 
         $data = [
             'planner' => $planner,
             'other_planner' => $other_planner,
+            'event_by_planner' => $event_by_planner,
         ];
 
         return view($view, $data);

@@ -75,7 +75,10 @@ class EventUserController extends Controller
             $user_id = 0;
         }
 
-        $event = Event::find(decodeId($id));
+        $event = Event::select('event.*','users.id','users.name as planner')
+            ->leftjoin('users', 'users.id', '=', 'event.created_by')
+            ->where('event.event_id',decodeId($id))
+            ->first();
         $other_event =  Event::inRandomOrder()
             ->limit(5)
             ->get();

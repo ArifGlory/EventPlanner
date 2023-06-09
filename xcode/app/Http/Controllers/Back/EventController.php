@@ -369,8 +369,8 @@ class EventController  extends Controller
             'event_description' => 'deskripsi tiket',
             'event_latitude' => 'latitdue',
             'event_longitude' => 'longitude',
-            'event_rekening' => 'longitude',
-            'event_bank_rekening' => 'longitude',
+            'event_rekening' => 'no. rekening',
+            'event_bank_rekening' => 'nama bank',
             //'event_poster' => 'foto event',
         ];
         $this->validate($request,

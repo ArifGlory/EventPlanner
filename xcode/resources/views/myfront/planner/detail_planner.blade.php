@@ -43,6 +43,44 @@
                                 <!-- /.card-footer -->
                             </div>
                             <!-- /.card -->
+                            <div class="card mt-5">
+                                <div class="card-header">
+                                    <h6>Event Terbaru</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="swiper-container blog grid-view mb-6" data-margin="30" data-dots="true"
+                                         data-items-md="3" data-items-xs="1">
+                                        <div class="swiper">
+                                            <div class="swiper-wrapper">
+                                                @foreach($event_by_planner as $val)
+                                                    <div class="swiper-slide">
+                                                        <article>
+                                                            <figure style="height: 250px;" class="overlay overlay-1 hover-scale rounded">
+                                                                <a href="#">
+                                                                    <img src="{{ getImageOri($val->event_poster)  }}" alt=""/></a>
+                                                                <figcaption>
+                                                                    <h5 class="from-top mb-0">Selengkapnya</h5>
+                                                                </figcaption>
+                                                            </figure>
+                                                            <div class="post-header">
+                                                                <h2 class="post-title h3">
+                                                                    <a class="link-dark"
+                                                                       href="#"> {{$val->event_name}} </a>
+                                                                </h2>
+                                                            </div>
+                                                            <!-- /.post-header -->
+                                                        </article>
+                                                        <!-- /article -->
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            <!--/.swiper-wrapper -->
+                                        </div>
+                                        <!-- /.swiper -->
+                                    </div>
+                                    <!-- /.swiper-container -->
+                                </div>
+                            </div>
                         </article>
                     </div>
                 </div>
