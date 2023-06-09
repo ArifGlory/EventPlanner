@@ -47,6 +47,7 @@ Route::get('/berita/detail/{id}', [BeritaUserController::class, 'detail']);
 
 Route::group(['prefix' => 'user', 'middleware' => ['user_and_store']], function () {
     Route::get('/', [ProfileUserController::class, 'index']);
+    Route::get('/edit', [ProfileUserController::class, 'edit']);
     Route::get('/become-store', [ProfileUserController::class, 'addRoleStore']);
 });
 

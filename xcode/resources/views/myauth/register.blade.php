@@ -41,8 +41,6 @@
                 <div class="mb-3">
                     <label for="username" class="form-label">Email</label>
                     <br>
-                    {{--<input type="text" class="form-control @error('email') is-invalid @enderror" id="email"
-                           name="email" required placeholder="Enter your email" autofocus>--}}
                     <div class="input-group mb-3">
                         <input name="email" required type="text" id="email" class="form-control" placeholder="Email anda" aria-label="email anda" aria-describedby="basic-addon2">
                     </div>

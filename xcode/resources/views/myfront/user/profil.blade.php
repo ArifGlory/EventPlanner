@@ -52,6 +52,9 @@
                                         @if(cekRoleAkses('store'))
                                             <a href="{{ url('/main') }}" class="btn btn-primary rounded me-2">Dashboard Event Planner &nbsp;<i
                                                     class="ml-4 fas fa-home" style="color: white !important;"></i> </a>
+                                        @elseif(cekRoleAkses('user'))
+                                            <a href="#" class="btn btn-primary rounded me-2">Ubah profil &nbsp;<i
+                                                    class="ml-4 fas fa-user-edit" style="color: white !important;"></i> </a>
                                         @endif
                                         <a href="{{ route('auth-logout') }}" class="btn btn-primary rounded me-2">Logout &nbsp;<i
                                                 class="ml-4 fas fa-power-off" style="color: white !important;"></i> </a>

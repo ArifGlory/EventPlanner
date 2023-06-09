@@ -23,6 +23,7 @@ use App\Models\SubCategory;
 use App\Models\Submission;
 use App\Models\TransaksiEvent;
 use App\Models\UPH;
+use App\Models\User;
 use App\Models\UserHasRole;
 use App\Models\Voucher;
 use DataTables;
@@ -58,6 +59,41 @@ class ProfileUserController extends Controller
         ];
 
         return view($view, $data);
+    }
+
+    public function edit(){
+        $view = 'myfront.user.edit_profil';
+
+        $user = User::find(Auth::user()->id);
+        $data = [
+            'user' => $user
+        ];
+
+        return view($view, $data);
+    }
+
+    public function update(Request $request){
+        $rule = [
+            'name' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+        ];
+        $attributeRule = [
+            'name' => 'nama',
+            'email' => 'email',
+            'phone' => 'telepon',
+        ];
+        $this->validate($request,
+            $rule,
+            [],
+            $attributeRule
+        );
+        $requestData = $request->all();
+
+        $user = User::find(Auth::user()->id);
+        $update = $user->update($requestData);
+
+        return respon200("Berhasil ubah profil","user");
     }
 
     public function addRoleStore(){
