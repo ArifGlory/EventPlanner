@@ -50,7 +50,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{url('main/event/report')}}" class="nav-link">
+                        <a href="{{url('main/report')}}" class="nav-link {{ activeMenu('main/report') }}">
                             <i class="nav-icon fas fa-file-pdf"></i>
                             <p>
                                 Report Event

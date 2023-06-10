@@ -44,12 +44,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        /*if (cekRoleAkses("user")){
+        if (cekRoleAkses("user")){
             return redirect()->intended(RouteServiceProvider::PROFILE_USER);
         }else{
             return redirect()->intended(RouteServiceProvider::DASHBOARD);
-        }*/
-        return redirect()->intended(RouteServiceProvider::PROFILE_USER);
+        }
+        //return redirect()->intended(RouteServiceProvider::PROFILE_USER);
     }
 
     /**

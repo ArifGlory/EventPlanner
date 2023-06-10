@@ -35,7 +35,7 @@ class BeritaController  extends Controller
     {
         $this->middleware(['storeaccess']);
         $this->myService = new hideyoriService();
-        $this->context = 'event';
+        $this->context = 'berita';
     }
 
     public function index()

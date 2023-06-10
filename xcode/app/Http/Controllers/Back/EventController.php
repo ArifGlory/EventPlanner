@@ -447,7 +447,7 @@ class EventController  extends Controller
         $data = [
             'mode' => 'add',
             'event' => $event,
-            'action' => url('main/event/report/generate'),
+            'action' => url('main/report/generate'),
         ];
 
         return view($view,$data);
@@ -455,9 +455,9 @@ class EventController  extends Controller
 
     public function generateReport(Request $request){
         $rule = [
-           // 'from' => 'required',
-            //'until' => 'required',
-            'event_id' => 'required',
+            'from' => 'required',
+            'until' => 'required',
+            //'event_id' => 'required',
         ];
         $attributeRule = [
             'from' => 'Waktu Awal',
@@ -476,16 +476,19 @@ class EventController  extends Controller
         $now = Carbon::createFromFormat('Y-m-d',$today)->format('d F Y');
 
         $transaksi = TransaksiEvent::leftjoin('users', 'users.id', '=', 'transaksi_event.user_id')
-            ->where('transaksi_event.event_id',$requestData['event_id'])
-            //->whereBetween('transaksi_event.created_at', [$requestData['from'], $requestData['until']])
+            ->leftjoin('event', 'event.event_id', '=', 'transaksi_event.event_id')
+            //->where('transaksi_event.event_id',$requestData['event_id'])
+            ->whereBetween('transaksi_event.created_at', [$requestData['from'], $requestData['until']])
             ->get();
-        $event = Event::find($requestData['event_id']);
+        //$event = Event::find($requestData['event_id']);
+        $dari = tanggalIndo($requestData['from']);
+        $sampai = tanggalIndo($requestData['until']);
 
         $data = array(
-            'event' => $event,
+            //'event' => $event,
             'transaksi' => $transaksi,
-            //'dari' => $dari,
-            //'sampai' => $sampai,
+            'dari' => $dari,
+            'sampai' => $sampai,
             'user' => Auth::user(),
             'now' => $now,
         );

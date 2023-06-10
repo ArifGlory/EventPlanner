@@ -144,13 +144,13 @@
         </div>
         <div class="col-md-12">
             <div class="text-center">
-                <h2 style="align-self: center;" class="my-center">Laporan Data Transaksi Event <br> <?php echo $event->event_name; ?> </h2>
+                <h2 style="align-self: center;" class="my-center">Laporan Data Transaksi Event <br> </h2>
             </div>
         </div>
         <div class="col-md-9">
             <p class="no-margin-vertical">Laporan dibuat tanggal : <?php echo $now; ?> </p>
             <br>
-           <!-- <p class="no-margin-vertical">Data Tanggal <?php /*echo $dari; */?> s/d Tanggal <?php /*echo $sampai; */?> </p>-->
+            <p class="no-margin-vertical">Data Tanggal <?php echo $dari; ?> s/d Tanggal <?php echo $sampai; ?> </p>
         </div>
         <div class="bb-1 mt-1 w-100"></div>
         <div class="bb-3 mt-2 w-100"></div>
@@ -163,8 +163,9 @@
                     <thead class="thead-dark">
                     <tr>
                         <td>No.</td>
+                        <td>Event</td>
                         <td>Nama</td>
-                        <td>Jumlah Pembelian</td>
+                        <td>Jumlah</td>
                         <td>Total Bayar</td>
                         <td>Status</td>
                     </tr>
@@ -183,6 +184,7 @@
                         ?>
                         <tr>
                             <td> <?php echo $no++; ?> </td>
+                            <td> <?php echo $val->event_name ?> </td>
                             <td> <?php echo $val->name ?> </td>
                             <td> <?php echo $val->jumlah ?> </td>
                             <td>Rp. <?php echo number_format($val->total_bayar, 0, ',', '.') ?> </td>

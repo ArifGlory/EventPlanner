@@ -49,7 +49,7 @@
                                                         @csrf
                                                         <div class="col-md-5">
                                                             <input type="hidden" name="transaksi_event_id" value="{{encodeId($transaksi->transaksi_event_id)}}">
-                                                            <input name="bukti_bayar" type="file" class="form-control w-100">
+                                                            <input required name="bukti_bayar" type="file" class="form-control w-100">
                                                         </div>
                                                         <div class="pull-right mt-2">
                                                             <button type="submit" class="btn btn-primary rounded w-100">Kirim</button>

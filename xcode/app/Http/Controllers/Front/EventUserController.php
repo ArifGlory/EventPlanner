@@ -148,6 +148,17 @@ class EventUserController extends Controller
     }
 
     public function uploadPaymentProve(Request $request){
+        $rule = [
+            'bukti_bayar' => 'required',
+        ];
+        $attributeRule = [
+            'bukti_bayar' => 'bukti pembayaran',
+        ];
+        $this->validate($request,
+            $rule,
+            [],
+            $attributeRule
+        );
         $transaksi_id = $request->input('transaksi_event_id');
         $master = $this->myService->find(TransaksiEvent::class, decodeId($transaksi_id));
 
