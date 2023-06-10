@@ -10,7 +10,7 @@
                 <div class="col-lg-8">
                     <div class="blog classic-view">
                         <article class="post">
-                            <form method="POST" action="#" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('profil.update') }}" enctype="multipart/form-data">
                                 <div class="card">
                                     <div class="col-lg-12">
                                         @include('mycomponents.alert_front')
@@ -18,6 +18,7 @@
                                     <div class="card-body">
                                         <div class="post-content">
                                             <div class="row">
+                                                @csrf
                                                 <div class="mb-3">
                                                     <label for="username" class="form-label">Email</label>
                                                     <br>
@@ -59,6 +60,18 @@
                                                     </div>
                                                     @enderror
                                                 </div>
+                                                <div class="mb-3">
+                                                    <label for="username" class="form-label">Alamat</label>
+                                                    <textarea class="form-control @error('alamat') is-invalid @enderror"
+                                                           id="alamat"
+                                                              name="alamat" required>{{$user->alamat}}</textarea>
+                                                    @error('alamat')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </div>
+                                                <hr>
                                                 <div class="mb-3 form-password-toggle">
                                                     <div class="d-flex justify-content-between">
                                                         <label class="form-label" for="password">Password</label>

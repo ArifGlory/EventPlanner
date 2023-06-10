@@ -89,6 +89,9 @@ class ProfileUserController extends Controller
             $attributeRule
         );
         $requestData = $request->all();
+        if ($requestData['password'] == null){
+            unset($requestData['password']);
+        }
 
         $user = User::find(Auth::user()->id);
         $update = $user->update($requestData);
