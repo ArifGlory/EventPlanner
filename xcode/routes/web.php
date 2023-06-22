@@ -61,24 +61,6 @@ Route::get('/clear-cache', function () {
     return "Cache is cleared";
 });
 Route::group(['prefix' => 'main', 'middleware' => ['web', 'auth']], function () {
-    Route::get('/testss', function () {
-        dd(\App\Models\User::whereHas('fitur', function ($q) {
-            $q->where('nama_fitur', '=', 'Penebusan Puber');
-        })->get());
-        /*
-         * Gate check untuk layanan dan fitur
-         * \Illuminate\Support\Facades\Gate::check('layanan', ['Hallo Medik Vet']),//Mengecek layanan yang dibolehkan oleh user tertentu
-         * \Illuminate\Support\Facades\Gate::check('fitur', ['Data Alokasi'])//Mengecek fitur yang dibolehkan oleh user tertentu
-         *
-         * ! sementara helper berikut digunakan untuk di controller
-         * $this->authorize('layanan', ['Hallo Medik Vet']);
-         * $this->authorize('fitur', ['Data Alokasi']);
-         *
-         * Di bawah ini untuk directive blade apabila digunakan pada front end
-         * @can('fitur', ['Data Alokasi'])
-         * @can('layanan', ['Hallo Medik Vet'])
-         * */
-    });
     Route::middleware(['cekaktif'])->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     });

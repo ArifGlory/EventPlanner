@@ -2,13 +2,13 @@
     <nav class="navbar navbar-expand-lg extended navbar-light navbar-bg-light caret-none">
         <div class="container flex-lg-column">
             <div class="topbar d-flex flex-row w-100 justify-content-between align-items-center">
-                <div class="navbar-brand"><a href="#">
-
-                        <img alt="" src="{{asset('statis/event_planner_logo.png')}}"
-                             srcset="{{asset('statis/event_planner_logo.png')}}">
-
+                <div class="navbar-brand text-center w-100 d-block d-sm-none">
+                    <a href="#">
+                        <img alt="" style="width: 200px;" src="{{asset('statis/siger.png')}}"
+                             srcset="{{asset('statis/siger.png')}}">
+                    </a>
                 </div>
-                <div class="navbar-other ms-auto">
+                <div class="navbar-other">
                     <ul class="navbar-nav flex-row align-items-center">
                         <li class="nav-item d-lg-none">
                             <button class="hamburger offcanvas-nav-btn"><span></span></button>
