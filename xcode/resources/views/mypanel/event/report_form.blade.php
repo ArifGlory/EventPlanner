@@ -114,7 +114,7 @@ $titlePage = "Buat Report";
                                                     @component('mycomponents.btnsubmit')
                                                         @slot('variabel')
                                                             @if($mode=='add')
-                                                                Simpan
+                                                                Buat Laporan
                                                             @else
                                                                 Update
                                                             @endif

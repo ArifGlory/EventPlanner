@@ -494,8 +494,11 @@ class EventController  extends Controller
         );
 
         $pdf = PDF::loadView('report_event',$data);
+        return $pdf->stream("report_event.pdf", array("Attachment" => false));
 
-        return $pdf->download('report_event.pdf');
+        /*exit(0);
+
+        return $pdf->download('report_event.pdf');*/
 
 
     }
